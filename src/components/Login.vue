@@ -1,38 +1,33 @@
 <template>
 <div id="login">
   <section class="section">
-    <div class="container">
-
-      <div class="columns">
-        <div class="column is-4">
-        </div>
-        <div class="column is-4">
-          <div class="logo-image"><img src="../assets/logo-heart.png" /></div>
-          <h1>Fellings App</h1>
-          <span class="small-title">Login</span>
-          <div class="login-form">
-            <g-signin-button :params="googleSignInParams" @success="onSignInSuccess" @error="onSignInError">
-              Google
-            </g-signin-button>
-            <div class="field">
-              <p class="control">
-                <input class="input is-medium" type="email" placeholder="Email">
-              </p>
-            </div>
-            <div class="field">
-              <p class="control">
-                <input class="input is-medium" type="password" placeholder="Password">
-              </p>
-            </div>
-            <div class="field">
-              <p class="control">
-                <button class="button login-btn" v-on:click="login">Login</button>
-              </p>
-            </div>
+    <div class="columns">
+      <div class="column is-4">
+      </div>
+      <div class="column is-4">
+        <div class="logo-image"><img src="../assets/logo-heart.png" /></div>
+        <h1>Fellings App</h1>
+        <span class="small-title">Login</span>
+        <div class="login-form">
+          <button class="button signin-button" v-on:click="login">Google login</button>
+          <div class="field">
+            <p class="control">
+              <input class="input is-medium" v-model="email" type="email" placeholder="Email">
+            </p>
           </div>
-          <div><span class="small-title"> <router-link to="new-account">Create Account</router-link></span></div>
-          <div><span class="small-title"><a href="#">Lost your password?</a></span></div>
+          <div class="field">
+            <p class="control">
+              <input class="input is-medium" v-model="password" type="password" placeholder="Password">
+            </p>
+          </div>
+          <div class="field">
+            <p class="control">
+              <button class="button login-btn" v-on:click="loginWithData">Login</button>
+            </p>
+          </div>
         </div>
+        <div><span class="small-title"> <router-link to="new-account">Create Account</router-link></span></div>
+        <div><span class="small-title"><a href="#">Lost your password?</a></span></div>
       </div>
     </div>
   </section>
@@ -49,15 +44,8 @@ export default {
   name: 'login',
   data() {
     return {
-      /**
-       * The Auth2 parameters, as seen on
-       * https://developers.google.com/identity/sign-in/web/reference#gapiauth2initparams.
-       * As the very least, a valid client_id must present.
-       * @type {Object}
-       */
-      googleSignInParams: {
-        client_id: '104782811210-ua87mce48mlqh9rv130jefel48q9ktoj.apps.googleusercontent.com',
-      },
+      email: '',
+      password: '',
     };
   },
   beforeCreate() {
@@ -74,7 +62,7 @@ export default {
         // The signed-in user info.
         let user = result.user;
         console.log(user);
-        localStorage.setItem('token', token);
+        // localStorage.setItem('token', token);
         store.commit('LOGIN_USER');
         router.push('/');
         // ...
@@ -88,17 +76,17 @@ export default {
         // let credential = error.credential;
       });
     },
-    onSignInSuccess(googleUser) {
-      // `googleUser` is the GoogleUser object that represents the just-signed-in user.
-      // See https://developers.google.com/identity/sign-in/web/reference#users
-      const profile = googleUser.getAuthResponse(); // etc etc
-      localStorage.setItem('token', profile.id_token);
-      store.commit('LOGIN_USER');
-      router.push('/');
-    },
-    onSignInError(error) {
-      // `error` contains any error occurred.
-      console.log('OH NOES', error);
+    loginWithData() {
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+        function(user) {
+          store.commit('LOGIN_USER');
+          router.push('/');
+        }).catch((error) => {
+        // Handle Errors here.
+        let errorCode = error.code;
+        let errorMessage = error.message;
+        alert(errorMessage);
+      });
     },
   },
 };
@@ -148,10 +136,12 @@ export default {
   /* IE6-9 */
 }
 
-.g-signin-button {
+
+.signin-button {
   /* This is where you control how the button looks. Be creative! */
   display: inline-block;
   padding: 4px 8px;
+  border: none;
   border-radius: 3px;
   background-color: #e04fa2;
   color: #fff;
