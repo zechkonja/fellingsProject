@@ -8,13 +8,15 @@
         <h2>New account</h2>
         <div class="login-form">
           <div class="field">
-            <p class="control">
-              <input class="input is-medium" v-model="email" type="email" placeholder="Email">
+            <p :class="{ 'control': true }">
+              <input class="input is-medium" v-model="email" v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" name="email" type="text" placeholder="Email">
+              <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
             </p>
           </div>
           <div class="field">
-            <p class="control">
-              <input class="input is-medium" v-model="password" type="password" placeholder="Password">
+            <p :class="{ 'control': true }">
+              <input class="input is-medium" v-model="password" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('email') }" name="password" type="password" placeholder="Password">
+              <span v-show="errors.has('password')" class="help is-danger">{{ errors.first('password') }}</span>
             </p>
           </div>
           <div class="field">
@@ -33,7 +35,6 @@
 <script>
 import firebase from 'firebase';
 import router from '../router';
-import store from '../store';
 
 export default {
   name: 'new-account',
@@ -49,15 +50,15 @@ export default {
   methods: {
     signUp() {
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
-        function(user) {
-          store.commit('LOGIN_USER');
+        (user) => {
+          this.$store.commit('LOGIN_USER');
           router.push('/');
         },
-        function(err) {
-          alert('Oops. ' + err.message);
+        (err) => {
+          throw new Error(err.message);
         },
       );
-    }
+    },
   },
 };
 </script>

@@ -4,11 +4,13 @@ import Vue from 'vue';
 import vueResource from 'vue-resource';
 import GSignInButton from 'vue-google-signin-button';
 import firebase from 'firebase';
+import VeeValidate from 'vee-validate';
 import App from './App';
 import router from './router';
 
 Vue.use(vueResource);
 Vue.use(GSignInButton);
+Vue.use(VeeValidate);
 Vue.config.productionTip = false;
 
 // Initialize Firebase
@@ -21,6 +23,12 @@ const config = {
   messagingSenderId: '104782811210',
 };
 firebase.initializeApp(config);
+
+
+Vue.filter('reverse', (value) => {
+  // slice to make a copy of array, then reverse the copy
+  return value.slice().reverse();
+});
 
 /* eslint-disable no-new */
 new Vue({

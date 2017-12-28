@@ -26,11 +26,11 @@ module.exports = {
   // add your custom rules here
   rules: {
     'shadow-exception/no-shadow': [0, {
-        //default values
-        'exceptions': {
-          'err': false
-        }
-      }],
+      //default values
+      'exceptions': {
+        'err': false
+      }
+    }],
     // don't require .vue extension when importing
     'import/extensions': ['error', 'always', {
       js: 'never',

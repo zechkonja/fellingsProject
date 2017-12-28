@@ -5,29 +5,38 @@
       <div class="column is-4">
       </div>
       <div class="column is-4">
-        <div class="logo-image"><img src="../assets/logo-heart.png" /></div>
+        <div><img src="../assets/logo-heart.png" /></div>
         <h1>Fellings App</h1>
         <span class="small-title">Login</span>
         <div class="login-form">
-          <button class="button signin-button" v-on:click="login">Google login</button>
-          <div class="field">
-            <p class="control">
-              <input class="input is-medium" v-model="email" type="email" placeholder="Email">
-            </p>
-          </div>
-          <div class="field">
-            <p class="control">
-              <input class="input is-medium" v-model="password" type="password" placeholder="Password">
-            </p>
-          </div>
-          <div class="field">
-            <p class="control">
-              <button class="button login-btn" v-on:click="loginWithData">Login</button>
-            </p>
-          </div>
+          <form v-on:submit.prevent="validateEmailAddress">
+            <div class="field">
+              <p :class="{ 'control': true }">
+                <input class="input is-medium" v-model="email" v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" name="email" type="text" placeholder="Email">
+                <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
+              </p>
+            </div>
+            <div class="field">
+              <p :class="{ 'control': true }">
+                <input class="input is-medium" v-model="password" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('email') }" name="password" type="password" placeholder="Password">
+                <span v-show="errors.has('password')" class="help is-danger">{{ errors.first('password') }}</span>
+              </p>
+            </div>
+            <div class="field">
+              <p class="control">
+                <button class="button login-btn" v-on:click="loginWithData">Login</button>
+              </p>
+            </div>
+          </form>
         </div>
         <div><span class="small-title"> <router-link to="new-account">Create Account</router-link></span></div>
         <div><span class="small-title"><a href="#">Lost your password?</a></span></div>
+      </div>
+    </div>
+    <hr />
+    <div class="columns">
+      <div class="column is-12">
+        <button class="button signin-button" v-on:click="login">Google login</button>
       </div>
     </div>
   </section>
@@ -58,35 +67,33 @@ export default {
       const provider = new firebase.auth.GoogleAuthProvider();
       firebase.auth().signInWithPopup(provider).then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
-        let token = result.credential.accessToken;
+        // const token = result.credential.accessToken;
         // The signed-in user info.
-        let user = result.user;
-        console.log(user);
-        // localStorage.setItem('token', token);
+        // const user = result.user;
+
         store.commit('LOGIN_USER');
         router.push('/');
         // ...
       }).catch((error) => {
-        // Handle Errors here.
-        // let errorCode = error.code;
-        // let errorMessage = error.message;
-        // // The email of the user's account used.
-        // let email = error.email;
-        // // The firebase.auth.AuthCredential type that was used.
-        // let credential = error.credential;
+        const errorMessage = error.message;
+        throw new Error(errorMessage);
       });
     },
     loginWithData() {
       firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
-        function(user) {
+        (user) => {
           store.commit('LOGIN_USER');
           router.push('/');
         }).catch((error) => {
-        // Handle Errors here.
-        let errorCode = error.code;
-        let errorMessage = error.message;
-        alert(errorMessage);
-      });
+        // const errorCode = error.code;
+          const errorMessage = error.message;
+          throw new Error(errorMessage);
+        });
+    },
+    validateEmailAddress: (e) => {
+      if (e.keyCode === 13) {
+        this.loginWithData();
+      }
     },
   },
 };
@@ -94,17 +101,13 @@ export default {
 
 <style>
 #login {
-  background-color: #f8f5f8;
+  background-color: #f8f3f7;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  overflow: hidden;
-}
-
-.logo-image {
-  margin-top: 30px;
+  overflow: auto;
 }
 
 .small-title {

@@ -1,20 +1,28 @@
 <template>
-<div id="home">
-  <div>HOME</div>
-
-
-  <button class="button" v-on:click="logout">Logout</button>
+<div id="home" class="box">
+  <app-header></app-header>
+  <app-content></app-content>
+  <app-footer></app-footer>
 </div>
 </template>
 
 <script>
 // import config from '../components/Config';
-import firebase from 'firebase';
+
 import router from '../router';
 import store from '../store';
 
+import appHeader from './Header';
+import NewEmotionContent from './NewEmotionContent';
+import appFooter from './Footer';
+
 export default {
   name: 'home',
+  components: {
+    'app-header': appHeader,
+    'app-content': NewEmotionContent,
+    'app-footer': appFooter,
+  },
   data() {
     return {
 
@@ -26,21 +34,46 @@ export default {
     }
   },
   methods: {
-    logout() {
-      firebase.auth().signOut().then(function() {
-        localStorage.removeItem('token');
-        store.commit('LOGOUT_USER');
-        router.push('login');
-      }).catch(function(error) {
-        // An error happened.
-      });
-
-    },
 
   },
 };
 </script>
 
-<style>
+<style scoped>
+#home {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: auto;
+}
 
+.box {
+  padding: 0;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+.box .row {
+  border: 0;
+}
+
+.box .row.header {
+  flex: 0 1 auto;
+  /* The above is shorthand for:
+  flex-grow: 0,
+  flex-shrink: 1,
+  flex-basis: auto
+  */
+}
+
+.box .row.content {
+  flex: 1 1 auto;
+}
+
+.box .row.footer {
+  flex: 0 1 52px;
+}
 </style>
