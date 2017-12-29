@@ -20,6 +20,7 @@
   <div class="columns is-mobile">
     <div class="column">
       <Heart />
+      <router-link class="button next-button" to="emotion-text">Next</router-link>
     </div>
   </div>
   <div class="columns is-mobile help-text">
@@ -28,7 +29,6 @@
       <p>Only you can see your fellings</p>
     </div>
   </div>
-  <!-- {{ emotion }} -->
 </div>
 </template>
 
@@ -57,6 +57,9 @@ export default {
     if (!store.state.isLogged) {
       router.push('/login');
     }
+  },
+  mounted() {
+    this.shared = this.emotion.shared;
   },
   methods: {
     shareState() {
@@ -109,6 +112,16 @@ export default {
 .shared {
   background-color: #e74c9c;
   color: white;
+}
+
+.next-button{
+  background-color: transparent;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 18px;
+  padding-left: 30px;
+  padding-right: 30px;
+  color: #e096cb;
 }
 
 </style>

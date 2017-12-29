@@ -3,10 +3,10 @@
   <nav class="navbar">
     <div class="container">
       <div class="navbar-brand is-large">
-        <a class="navbar-item" href="#">
+          <router-link class="navbar-item" to="/">
               <img src="../assets/small-heart.png" alt="Fellings" height="100px">
               <span class="nav-title">Fellings</span>
-          </a>
+          </router-link>
         <button @click="makeBurger" class="button navbar-burger" data-target="navMenu" v-bind:class="{ 'is-active': activator }">
               <span class="stripe"></span>
               <span class="stripe"></span>

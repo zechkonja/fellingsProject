@@ -4,30 +4,30 @@
     <div :class="[!addComment ? activeClass : hideClass]">
       <div class="columns is-mobile">
         <div class="column">
-          <router-link class="button" :to="'/emotions'"><img src="../assets/heart-rate.png" />Track Emotions</router-link>
+          <router-link class="button" :class="[trackPage ? 'track-emotions' : '']" :to="'/emotions'"><span :class="[trackPage ? 'heart-rate-colored' : 'heart-rate']"></span>Track Emotions</router-link>
         </div>
-        <a href="#" class="add-emotion" :class="[addEmotion ? activeClass : hideClass]"><i class="fa fa-plus"></i></a>
+        <router-link to="/" class="add-emotion" :class="[addEmotion ? activeClass : hideClass]">
+          <i class="fa fa-plus"></i>
+        </router-link>
+        <div to="/" class="add-emotion" :class="[!addEmotion ? activeClass : hideClass]">
+
+        </div>
         <div class="column">
           <router-link class="button" :to="'/advisors'"><img src="../assets/emotion-adv-icon.png" /> Emotion Advisor</router-link>
         </div>
       </div>
     </div>
-
     <div class="form-controls" :class="[addComment ? activeClass : hideClass]">
       <div class="columns is-mobile">
         <div class="column">
-          <router-link class="button" :to="'/emotion'">Go back</router-link>
+          <router-link class="button" :to="'/'">Go back</router-link>
         </div>
         <div class="column">
-          <router-link class="button" :to="'/advisors'">Skip</router-link>
+          <router-link class="button" :to="'/emotions'">Skip</router-link>
         </div>
       </div>
     </div>
-
   </div>
-
-
-  <!-- </div> -->
 </div>
 </template>
 
@@ -38,12 +38,18 @@ import store from '../store';
 
 export default {
   name: 'app-content',
+  computed: {
+    emotion() {
+      return store.state.emotion;
+    },
+  },
   data() {
     return {
       addEmotion: false,
       addComment: false,
       activeClass: 'show',
       hideClass: 'hide',
+      trackPage: false,
     };
   },
   beforeCreate() {
@@ -51,8 +57,29 @@ export default {
       router.push('/login');
     }
   },
+  mounted() {
+    this.checkEmotion();
+  },
   methods: {
-
+    checkEmotion() {
+      if (this.$route.path === '/emotion-text') {
+        this.addComment = true;
+        this.addEmotion = false;
+        this.trackPage = false;
+      } else if (this.$route.path === '/') {
+        this.addComment = false;
+        this.addEmotion = false;
+        this.trackPage = false;
+      } else if (this.$route.path === '/emotions') {
+        this.addComment = false;
+        this.addEmotion = true;
+        this.trackPage = true;
+      } else {
+        this.addComment = false;
+        this.addEmotion = true;
+        this.trackPage = false;
+      }
+    },
   },
 };
 </script>
@@ -61,10 +88,15 @@ export default {
 #footer {
   padding: 0px;
   background-color: white;
+  font-weight: bold;
 }
 
 #footer .columns {
   margin: 0;
+}
+
+#footer .columns .column {
+  padding: 10px 0px 10px 0px;
 }
 
 #footer .columns .column a {
@@ -77,6 +109,10 @@ export default {
 
 .button {
   border: none;
+}
+
+.add-emotion {
+  width: 47px;
 }
 
 .add-emotion .fa {
@@ -113,4 +149,24 @@ i.fa {
   padding: 0.5em 0.6em;
 
 }
+
+
+.track-emotions {
+  color: #fc428c;
+  font-weight: bold;
+}
+
+
+.heart-rate {
+  background-image: url('../assets/heart-rate.png');
+  width: 16px;
+  height: 14px;
+}
+
+.heart-rate-colored {
+  background-image: url('../assets/heart-rate-colored.png');
+  width: 16px;
+  height: 14px;
+}
+
 </style>

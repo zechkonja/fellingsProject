@@ -11,6 +11,9 @@ import router from './router';
 Vue.use(vueResource);
 Vue.use(GSignInButton);
 Vue.use(VeeValidate);
+
+Vue.use(require('vue-moment'));
+
 Vue.config.productionTip = false;
 
 // Initialize Firebase
@@ -22,8 +25,8 @@ const config = {
   storageBucket: 'fellingsproject.appspot.com',
   messagingSenderId: '104782811210',
 };
-firebase.initializeApp(config);
 
+firebase.initializeApp(config);
 
 Vue.filter('reverse', (value) => {
   // slice to make a copy of array, then reverse the copy
