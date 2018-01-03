@@ -19,7 +19,7 @@
   </div>
   <div class="columns is-mobile">
     <div class="column">
-      <Heart />
+      <Heart :value="50" :size="60" :enabled="true" />
       <router-link class="button next-button" to="emotion-text">Next</router-link>
     </div>
   </div>

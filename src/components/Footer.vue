@@ -86,6 +86,7 @@ export default {
 
 <style scoped>
 #footer {
+  z-index: 1;
   padding: 0px;
   background-color: white;
   font-weight: bold;
@@ -123,7 +124,7 @@ export default {
 }
 
 .show {
-  display: inline-block;
+  display: block;
 }
 
 .hide {

@@ -11,7 +11,7 @@ html {
 body {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   /* Avoid the IE 10-11 `min-height` bug. */
 }
 

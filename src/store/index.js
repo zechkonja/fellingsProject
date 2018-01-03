@@ -6,13 +6,14 @@ Vue.use(Vuex);
 
 const state = {
   isLogged: !!localStorage.getItem('firebase:authUser:AIzaSyCOvVWZXKyn31ose1KhyxpYIzP44Rizp0E:[DEFAULT]'),
-  userId: JSON.parse(localStorage.getItem('firebase:authUser:AIzaSyCOvVWZXKyn31ose1KhyxpYIzP44Rizp0E:[DEFAULT]')).uid,
+  userId: (JSON.parse(localStorage.getItem('firebase:authUser:AIzaSyCOvVWZXKyn31ose1KhyxpYIzP44Rizp0E:[DEFAULT]'))) ? JSON.parse(localStorage.getItem('firebase:authUser:AIzaSyCOvVWZXKyn31ose1KhyxpYIzP44Rizp0E:[DEFAULT]')).uid : '',
   emotion: {
     insertDate: '',
     shared: false,
     text: '',
     value: 0,
     error: false,
+    reversedId: 0,
   },
   emotions: [],
 };
@@ -20,7 +21,7 @@ const state = {
 const mutations = {
   LOGIN_USER(state) {
     state.isLogged = true;
-    state.userId = JSON.parse(localStorage.getItem('firebase:authUser:AIzaSyCOvVWZXKyn31ose1KhyxpYIzP44Rizp0E:[DEFAULT]')).uid;
+    state.userId = (JSON.parse(localStorage.getItem('firebase:authUser:AIzaSyCOvVWZXKyn31ose1KhyxpYIzP44Rizp0E:[DEFAULT]'))) ? JSON.parse(localStorage.getItem('firebase:authUser:AIzaSyCOvVWZXKyn31ose1KhyxpYIzP44Rizp0E:[DEFAULT]')).uid : '';
   },
 
   LOGOUT_USER(state) {
@@ -30,6 +31,10 @@ const mutations = {
 
   ADD_EMOTION_VALUE(state, number) {
     state.emotion.value = number;
+  },
+
+  ADD_REVERSEDID_VALUE(state, reversedId) {
+    state.emotion.reversedId = reversedId;
   },
 
   ADD_SHARED_VALUE(state, shared) {
@@ -63,7 +68,7 @@ const mutations = {
 
   EDIT_EMOTION(state, e) {
     e.shared = !e.shared;
-    firebase.database().ref().child('/emotions/' + this.state.userId + '/' + e.id)
+    firebase.database().ref().child(`/emotions/${this.state.userId}/${e.id}`)
       .update({
         shared: e.shared,
       });
@@ -73,7 +78,7 @@ const mutations = {
 
 const actions = {
   SAVE_EMOTION(context) {
-    const myRef = firebase.database().ref('/emotions/' + this.state.userId);
+    const myRef = firebase.database().ref(`/emotions/${this.state.userId}`);
     const newData = {
       insertDate: Math.round((new Date()).getTime() / 1000),
       shared: state.emotion.shared,
@@ -88,7 +93,7 @@ const actions = {
 
   GET_EMOTIONS(context) {
     const emotions = [];
-    const leadsRef = firebase.database().ref('/emotions/' + this.state.userId);
+    const leadsRef = firebase.database().ref(`/emotions/${this.state.userId}`);
     leadsRef.on('value', (snapshot) => {
       snapshot.forEach((childSnapshot) => {
         const childData = childSnapshot.val();

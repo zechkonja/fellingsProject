@@ -7,30 +7,31 @@
   </div>
   <div class="columns is-mobile">
     <div class="column">
-      <span>{{ emotion.value }}%</span> <span class="happiness-level">Average Happiness level</span>
+      <span>{{ avg }}%</span> <span class="happiness-level">Average Happiness level</span>
     </div>
   </div>
-  <div class="columns is-mobile emotion-item" v-for="emotion in emotions">
+  <div class="columns is-mobile emotion-item" v-for="em in emotions">
     <div class="column is-two-fifths">
       <div class="heart">
-        <img src="../assets/heart.png" />
+        <!-- <img src="../assets/heart.png" /> -->
+        <Heart :value="em.value" :size="60" :enabled="false" />
       </div>
     </div>
     <div class="column">
       <div class="info">
         <div class="time">
-          <span>{{ emotion.insertDate | moment("d. MM. YYYY") }}</span> AT 
-          <span>{{ emotion.insertDate | moment("h:mm") }}</span>
+          <span>{{ em.insertDate | moment("d. MM. YYYY") }}</span> AT
+          <span>{{ em.insertDate | moment("h:mm") }}</span>
         </div>
         <div class="value">
-          <span class="emotion-value">{{ emotion.value }}%</span><span>Happines level</span>
+          <span class="emotion-value">{{ em.value }}%</span><span>Happines level</span>
         </div>
         <div class="short-text">
-          <p>{{ emotion.text }}</p>
+          <p>{{ em.text }}</p>
         </div>
         <div class="actions">
           <button class="clear-button edit"></button>
-          <button class="clear-button share" :class="{'share-colored': emotion.shared}" v-on:click="shareState(emotion)"></button>
+          <button class="clear-button share" :class="{'share-colored': em.shared}" v-on:click="shareState(em)"></button>
         </div>
       </div>
     </div>
@@ -43,9 +44,13 @@
 // import config from '../components/Config';
 import router from '../router';
 import store from '../store';
+import Heart from './Heart';
 
 export default {
   name: 'all-emotions',
+  components: {
+    Heart,
+  },
   computed: {
     emotion() {
       return store.state.emotion;
@@ -53,10 +58,17 @@ export default {
     emotions() {
       return store.state.emotions;
     },
+    avg() {
+      let total = 0;
+      const length = store.state.emotions.length;
+      for (let i = 0; i < length; i++) {
+        total += parseFloat(store.state.emotions[i].value);
+      }
+      return Math.round(total / length);
+    },
   },
   data() {
-    return {
-    };
+    return {};
   },
   beforeCreate() {
     if (!store.state.isLogged) {
@@ -83,6 +95,8 @@ export default {
   background-color: #f8f4f8;
   padding: 20px;
   margin-bottom: 0px;
+  flex: 1;
+  overflow: auto;
 }
 
 .share-button {

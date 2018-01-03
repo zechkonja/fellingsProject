@@ -15,6 +15,10 @@ module.exports = {
     'html',
     "shadow-exception"
   ],
+  globals: {
+    "$": true,
+    "jQuery": true,
+  },
   // check if imports actually resolve
   settings: {
     'import/resolver': {

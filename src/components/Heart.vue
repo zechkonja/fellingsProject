@@ -1,9 +1,9 @@
 <template>
 <div id="heart" class="row header">
-  <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="200.000000px" height="176.000000px" viewBox="0 0 200.000000 176.000000" preserveAspectRatio="xMidYMid meet">
+  <svg :style="'width: '+size+'%; height:' + size +'%;'" version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200.000000 176.000000" preserveAspectRatio="xMidYMid meet">
  <foreignObject width="100%" height="100%">
-           <div id="parts">
-             <div v-for="part in parts" :class="'part empty'+part.id" @click="clickOnLine(part.id, part.reversedId, $event)"></div>
+           <div id="parts" :class="[enabled ? enabledClass : disabledClass]">
+             <div v-for="part in parts" :class="'part empty'+part.id" @click="clickOnLine(part.id, part.reversedId, $event.target)"></div>
            </div>
 </foreignObject>
 <g transform="translate(0.000000,176.000000) scale(0.100000,-0.100000)"
@@ -29,21 +29,35 @@ import store from '../store';
 
 export default {
   name: 'heart',
+  props: ['value', 'size', 'enabled'],
   data() {
     return {
       isActive: false,
       activeClass: 'show',
       hideClass: 'hide',
       parts: [],
+      inverseIdHeart: this.$props.value,
+      selection: null,
+      enabledClass: '',
+      disabledClass: 'changeValue'
     };
+  },
+  computed: {
+    emotion() {
+      return store.state.emotion;
+    },
   },
   beforeCreate() {
     if (!store.state.isLogged) {
       router.push('/login');
     }
   },
-  mounted() {
+  beforeMount() {
     this.createParts();
+  },
+  mounted() {
+    const reverse = 100 - this.$props.value;
+    this.clickOnLine(reverse, this.$props.value, this.$el.querySelector('.empty' + reverse));
   },
   methods: {
     createParts() {
@@ -61,15 +75,15 @@ export default {
         counter--;
       });
     },
-    clickOnLine(number, reverseId, event) {
-      const elem = event.target;
+    clickOnLine(number, reverseId, elem) {
       this.nextUntil(elem, '.part:last-child', number);
       this.showCurrent(elem, number, reverseId);
       this.previousUntil(elem, '.part:first-child', number);
     },
     showCurrent(elem, number, reverseId) {
-      elem.classList.add('part' + number);
+      elem.classList.add(`part${number}`);
       store.commit('ADD_EMOTION_VALUE', reverseId);
+      store.commit('ADD_REVERSEDID_VALUE', number);
     },
     nextUntil(elem, selector, number) {
       // Setup siblings array
@@ -84,7 +98,7 @@ export default {
       while (elem) {
         number++;
         // console.log(elem);
-        elem.classList.add('part' + number);
+        elem.classList.add(`part${number}`);
         // If we've reached our match, bail
         if (elem.matches(selector)) break;
         // Otherwise, push it to the siblings array
@@ -108,7 +122,7 @@ export default {
       while (elem) {
         number--;
         // console.log(elem);
-        elem.classList.remove('part' + number);
+        elem.classList.remove(`part${number}`);
         // If we've reached our match, bail
         if (elem.matches(selector)) break;
         // Otherwise, push it to the siblings array
@@ -152,5 +166,9 @@ $total-columns: 100;
         width: 200px;
         height: 1.76px;
     }
+}
+
+.changeValue {
+    pointer-events: none;
 }
 </style>
