@@ -6,9 +6,12 @@
         <div class="column">
           <router-link class="button" :class="[trackPage ? 'track-emotions' : '']" :to="'/emotions'"><span :class="[trackPage ? 'heart-rate-colored' : 'heart-rate']"></span>Track Emotions</router-link>
         </div>
-        <router-link to="/" class="add-emotion" :class="[addEmotion ? activeClass : hideClass]">
+        <!-- <router-link @click="addNew" to="/" class="add-emotion" :class="[addEmotion ? activeClass : hideClass]">
           <i class="fa fa-plus"></i>
-        </router-link>
+        </router-link> -->
+        <button @click="addNew" class="clear-button add-emotion" :class="[addEmotion ? activeClass : hideClass]">
+          <i class="fa fa-plus"></i>
+        </button>
         <div to="/" class="add-emotion" :class="[!addEmotion ? activeClass : hideClass]">
 
         </div>
@@ -79,6 +82,10 @@ export default {
         this.addEmotion = true;
         this.trackPage = false;
       }
+    },
+    addNew() {
+      store.dispatch('RESET_EMOTION');
+      router.push('/');
     },
   },
 };
@@ -170,4 +177,14 @@ i.fa {
   height: 14px;
 }
 
+.clear-button {
+  background-color: transparent !important;
+  background-repeat: no-repeat;
+  color: inherit;
+  border: none;
+  padding: 0! important;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit !important;
+}
 </style>

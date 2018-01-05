@@ -72,7 +72,6 @@ export default {
       store.commit('ADD_SHARED_VALUE', this.shared);
     },
     finishEmotion() {
-      store.commit('RESET_EMOTION');
       router.push('/emotions');
     },
   },

@@ -5,9 +5,9 @@ import vueResource from 'vue-resource';
 import GSignInButton from 'vue-google-signin-button';
 import firebase from 'firebase';
 import VeeValidate from 'vee-validate';
-import $ from 'jquery';
 import App from './App';
 import router from './router';
+import './css/main.scss';
 
 Vue.use(vueResource);
 Vue.use(GSignInButton);
@@ -29,14 +29,14 @@ const config = {
 
 firebase.initializeApp(config);
 
-Vue.filter('reverse', value =>
-  // slice to make a copy of array, then reverse the copy
-   value.slice().reverse());
+Vue.filter('cutText', value => value.split(' ').slice(0, 15).join(' '));
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App },
+  components: {
+    App
+  },
 });

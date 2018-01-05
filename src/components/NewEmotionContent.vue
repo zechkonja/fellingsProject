@@ -19,7 +19,7 @@
   </div>
   <div class="columns is-mobile">
     <div class="column">
-      <Heart :value="50" :size="60" :enabled="true" />
+      <Heart :value="emotion.value ? emotion.value : 50" :size="60" :enabled="true" />
       <router-link class="button next-button" to="emotion-text">Next</router-link>
     </div>
   </div>
@@ -72,7 +72,7 @@ export default {
 
 <style scoped>
 #new-emotion-content {
-  background-color: #f8f4f8;
+  background-color: #F8F4F8;
   padding: 20px;
   margin-bottom: 0px;
 }

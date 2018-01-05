@@ -1,42 +1,32 @@
 <template>
-<div id="all-emotions" class="row content">
+<div id="all-advisors" class="row content">
   <div class="columns is-mobile">
     <div class="column">
-      <h2>Learn your emotions</h2>
+      <h2>Choose your advisor</h2>
+    </div>
+  </div>
+  <div class="columns is-mobile">
+    <div class="column">
+      <span class="happiness-level">Your coach to happines</span>
     </div>
   </div>
   <div :class="{'is-waiting': !dataReady}">
-    <div class="columns is-mobile">
-      <div class="column" v-if="emotions.length > 0">
-        <span>{{ avg }}%</span> <span class="happiness-level">Average Happiness level</span>
-      </div>
-    </div>
-    <div class="columns is-mobile">
-      <div class="column" :class="showHide ? 'show' : 'hide'">
-        <div>You don't have any emotions! Add some!</div>
-      </div>
-    </div>
-    <div class="columns is-mobile emotion-item" v-for="em in emotions">
+    <div class="columns is-mobile emotion-item" v-for="advisor in advisors">
       <div class="column is-two-fifths">
-        <div class="heart">
-          <Heart :value="em.value" :size="60" :enabled="false" />
+        <div class="image">
+          <img :src="advisor.imageUrl? advisor.imageUrl : 'src/assets/advisor_img.png'" />
         </div>
       </div>
       <div class="column">
         <div class="info">
-          <div class="time">
-            <span>{{ em.insertDate | moment("d. MM. YYYY") }}</span> AT
-            <span>{{ em.insertDate | moment("h:mm") }}</span>
-          </div>
-          <div class="value">
-            <span class="emotion-value">{{ em.value }}%</span><span>Happines level</span>
+          <div class="title">
+            {{advisor.fullName}}
           </div>
           <div class="short-text">
-            <p>{{ em.text | cutText }}</p>
+            Exploring our clients goals, priorities, lifestyle...
           </div>
           <div class="actions">
-            <button class="clear-button edit"></button>
-            <button class="clear-button share" :class="{'share-colored': em.shared}" v-on:click="shareState(em)"></button>
+            <button @click="chooseAdvisor" class="clear-button advisor-btn">Choose Advisor</button>
           </div>
         </div>
       </div>
@@ -49,43 +39,19 @@
 // import config from '../components/Config';
 import router from '../router';
 import store from '../store';
-import Heart from './Heart';
 
 export default {
-  name: 'all-emotions',
-  components: {
-    Heart,
-  },
+  name: 'all-advisors',
   computed: {
-    emotion() {
-      return store.state.emotion;
-    },
-    emotions() {
-      return store.state.emotions;
+    advisors() {
+      return store.state.advisors;
     },
     dataReady() {
-      return store.state.emotionsReady;
-    },
-    avg() {
-      let total = 0;
-      const length = store.state.emotions.length;
-      for (let i = 0; i < length; i++) {
-        total += parseFloat(store.state.emotions[i].value);
-      }
-      return Math.round(total / length);
-    },
-    showHide() {
-      if (store.state.emotions.length === 0) {
-        return true;
-      } else {
-        return false;
-      }
+      return store.state.advisorsReady;
     },
   },
   data() {
-    return {
-      filter: '',
-    };
+    return {};
   },
   beforeCreate() {
     if (!store.state.isLogged) {
@@ -93,23 +59,22 @@ export default {
     }
   },
   mounted() {
+    this.getAdvisors();
     store.commit('RESET_EMOTION');
-    this.getEmotions();
   },
   methods: {
-    getEmotions() {
-      store.dispatch('GET_EMOTIONS');
+    getAdvisors() {
+      store.dispatch('GET_ADVISORS');
     },
-    shareState(emotion) {
-      store.dispatch('EDIT_SHARED_VALUE', emotion);
-      this.getEmotions();
-    },
+    chooseAdvisor() {
+      router.push('/choose-advisor');
+    }
   },
 };
 </script>
 
 <style scoped>
-#all-emotions {
+#all-advisors {
   background-color: #f8f4f8;
   padding: 20px;
   margin-bottom: 0px;
@@ -181,23 +146,22 @@ export default {
   box-shadow: 0 0px 5px 5px rgba(232, 232, 232, 0.75);
 }
 
-.heart img {
-  width: 80px;
-  height: 70px;
+.image img {
+  margin: 0 auto;
+  width: 70%;
+  height: 70%;
+  -webkit-clip-path: circle(50% at 50% 50%);
+  clip-path: circle(50% at 50% 50%);
 }
 
 .info {
   text-align: left;
 }
 
-.info .time {
+.info .title {
   font-size: 14px;
   font-weight: bold;
-  color: #fc428c;
-}
-
-.info .value span {
-  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .info .value .emotion-value {
@@ -216,37 +180,20 @@ export default {
   background-repeat: no-repeat;
   color: inherit;
   border: none;
-  padding: 0! important;
+  padding: 0;
   font: inherit;
   cursor: pointer;
   outline: inherit !important;
 }
 
-.info .edit {
-  background-image: url('../assets/edit.png');
-  width: 14px;
-  height: 16px;
-  margin-right: 10px;
-}
+.advisor-btn {
+  font-size: 13px;
+  font-weight: bold;
+  color: #8f84a0;
+  border: 1px solid rgba(232, 232, 232, 0.75);
+  border-radius: 50px;
+  padding-left: 15px;
+  padding-right: 15px;
 
-.info .share {
-  background-image: url('../assets/share.png');
-  width: 14px;
-  height: 13px;
-}
-
-.info .share-colored {
-  background-image: url('../assets/share-colored.png');
-  width: 14px;
-  height: 13px;
-}
-
-.show {
-  display: block;
-  visibility: visible;
-}
-
-.hide {
-  display: none;
 }
 </style>

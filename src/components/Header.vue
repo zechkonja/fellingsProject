@@ -3,7 +3,7 @@
   <nav class="navbar">
     <div class="container">
       <div class="navbar-brand is-large">
-          <router-link class="navbar-item" to="/">
+          <router-link class="navbar-item" to="/emotions">
               <img src="../assets/small-heart.png" alt="Fellings" height="100px">
               <span class="nav-title">Fellings</span>
           </router-link>

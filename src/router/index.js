@@ -6,6 +6,8 @@ import NewAccount from '@/components/NewAccount';
 import EmotionText from '@/components/EmotionText';
 import Emotions from '@/components/Emotions';
 import EmotionsAdded from '@/components/EmotionsAdded';
+import Advisors from '@/components/Advisors';
+import ChooseAdvisor from '@/components/ChooseAdvisor';
 
 Vue.use(Router);
 
@@ -42,6 +44,16 @@ export default new Router({
       path: '/added',
       name: 'EmotionAdded',
       component: EmotionsAdded,
+    },
+    {
+      path: '/advisors',
+      name: 'Advisors',
+      component: Advisors,
+    },
+    {
+      path: '/choose-advisor',
+      name: 'ChooseAdvisor',
+      component: ChooseAdvisor,
     },
   ],
 });
