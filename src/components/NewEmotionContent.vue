@@ -5,9 +5,7 @@
       <span>{{ emotion.value }}%</span> <span class="happiness-level">Happiness level</span>
     </div>
     <div class="column">
-      <a href="#" class="button share-button"
-          v-bind:class="{ shared: shared }"
-          v-on:click="shareState">
+      <a href="#" class="button share-button" v-bind:class="{ shared: emotion.shared }" v-on:click="shareState">
         <i class="fa fa-share-alt" aria-hidden="true"></i>Share
       </a>
     </div>
@@ -58,9 +56,7 @@ export default {
       router.push('/login');
     }
   },
-  mounted() {
-    this.shared = this.emotion.shared;
-  },
+  mounted() {},
   methods: {
     shareState() {
       this.shared = !this.shared;
@@ -78,7 +74,7 @@ export default {
 }
 
 
-.help-text{
+.help-text {
   margin-top: 30px;
 }
 
@@ -87,7 +83,7 @@ export default {
   font-size: 14px;
 }
 
-.share-button{
+.share-button {
   background-color: transparent;
   border-radius: 50px;
   font-weight: bold;
@@ -96,7 +92,7 @@ export default {
   padding-right: 15px;
 }
 
-.share-button i{
+.share-button i {
   margin-right: 5px;
 }
 
@@ -105,7 +101,7 @@ export default {
   font-weight: 100;
 }
 
-.happiness-level{
+.happiness-level {
   font-size: 12px;
 }
 
@@ -114,7 +110,7 @@ export default {
   color: white;
 }
 
-.next-button{
+.next-button {
   background-color: transparent;
   border-radius: 50px;
   font-weight: bold;
@@ -123,5 +119,4 @@ export default {
   padding-right: 30px;
   color: #e096cb;
 }
-
 </style>

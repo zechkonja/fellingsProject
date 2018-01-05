@@ -5,7 +5,7 @@
       <span>{{ emotion.value }}%</span> <span class="happiness-level">Happiness level</span>
     </div>
     <div class="column">
-      <a href="#" class="button share-button" v-bind:class="{ shared: shared }" v-on:click="shareState">
+      <a href="#" class="button share-button" v-bind:class="{ shared: emotion.shared }" v-on:click="shareState">
         <i class="fa fa-share-alt" aria-hidden="true"></i>Share
       </a>
     </div>
@@ -39,10 +39,17 @@ export default {
     emotion() {
       return store.state.emotion;
     },
+    shared: {
+      set(v) {
+        store.commit('ADD_SHARED_VALUE', v);
+      },
+      get() {
+        return store.state.emotion.shared;
+      },
+    },
   },
   data() {
     return {
-      shared: false,
       emotionText: '',
     };
   },
@@ -51,13 +58,10 @@ export default {
       router.push('/login');
     }
   },
-  mounted() {
-    this.shared = this.emotion.shared;
-  },
+  mounted() {},
   methods: {
     shareState() {
       this.shared = !this.shared;
-      store.commit('ADD_SHARED_VALUE', this.shared);
     },
     save() {
       store.commit('ADD_TEXT_VALUE', this.emotionText);

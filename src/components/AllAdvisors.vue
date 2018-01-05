@@ -14,7 +14,7 @@
     <div class="columns is-mobile emotion-item" v-for="advisor in advisors">
       <div class="column is-two-fifths">
         <div class="image">
-          <img :src="advisor.imageUrl? advisor.imageUrl : 'src/assets/advisor_img.png'" />
+          <img :src="advisor.imageUrl ? advisor.imageUrl : require('../assets/advisor_img.png')" />
         </div>
       </div>
       <div class="column">

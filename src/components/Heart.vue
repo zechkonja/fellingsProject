@@ -37,30 +37,29 @@ export default {
       router.push('/login');
     }
   },
-  beforeMount() {
-  },
+  beforeMount() {},
   mounted() {
-    this.drawImageFromWebUrl('src/assets/fill.png');
+    this.drawImageFromWebUrl(require('../assets/fill.png'));
     const reverse = 100 - this.$props.value;
-    store.commit('ADD_EMOTION_VALUE', reverse);
-    store.commit('ADD_REVERSEDID_VALUE', this.$props.value);
+    store.commit('ADD_EMOTION_VALUE', this.$props.value);
+    store.commit('ADD_REVERSEDID_VALUE', reverse);
 
     const clickedHeight = Math.round((reverse * 180) / 100);
     const canvas = this.$refs.canvas;
     const img = new Image();
     img.addEventListener('load', () => {
       // The image can be drawn from any source
-      canvas.getContext('2d').drawImage(img, 0, 0, img.width, 0, 0, 0, canvas.width, 0);
+      canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, 0);
 
       const ctx = canvas.getContext('2d');
-      const grad = ctx.createLinearGradient(0, 0, 0, 180);
+      const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
       grad.addColorStop(0, '#9c6fd5');
       grad.addColorStop(1, '#d853a8');
       ctx.fillStyle = grad;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillRect(0, clickedHeight, canvas.width, canvas.height);
     });
-    img.setAttribute('src', 'src/assets/fill.png');
+    img.setAttribute('src', require('../assets/fill.png'));
   },
   methods: {
     clickOnCanvas(e) {
@@ -131,9 +130,9 @@ export default {
       const canvas = this.$refs.canvas;
       img.addEventListener('load', () => {
         // The image can be drawn from any source
-        canvas.getContext('2d').drawImage(img, 0, 0, img.width, 0, 0, 0, canvas.width, 0);
+        canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, 0);
         const ctx = canvas.getContext('2d');
-        const grad = ctx.createLinearGradient(0, 0, 0, 180);
+        const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
         grad.addColorStop(0, '#9c6fd5');
         grad.addColorStop(1, '#d853a8');
         ctx.fillStyle = grad;
