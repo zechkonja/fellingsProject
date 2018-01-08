@@ -37,7 +37,7 @@ export default {
     leadsRef.on('value', (snapshot) => {
       snapshot.forEach((childSnapshot) => {
         const childData = childSnapshot.val();
-        if (childData.isPsy) {
+        if (childData.isPsy === true) {
           childData.id = childSnapshot.key;
           advisors.push(childData);
         }

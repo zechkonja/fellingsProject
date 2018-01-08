@@ -62,11 +62,6 @@ export default {
 
 .box .row.header {
   flex: 0 1 auto;
-  /* The above is shorthand for:
-  flex-grow: 0,
-  flex-shrink: 1,
-  flex-basis: auto
-  */
 }
 
 .box .row.content {
@@ -76,4 +71,32 @@ export default {
 .box .row.footer {
   flex: 0 1 52px;
 }
+
+/* .box {
+  padding: 0;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+.box .row {
+  border: 0;
+}
+
+.box .row.header {
+  flex: 0 1 auto;
+  /* The above is shorthand for:
+  flex-grow: 0,
+  flex-shrink: 1,
+  flex-basis: auto
+  */
+/*}
+
+.box .row.content {
+  flex: 1 1 auto;
+}
+
+.box .row.footer {
+  flex: 0 1 52px;
+} */
 </style>

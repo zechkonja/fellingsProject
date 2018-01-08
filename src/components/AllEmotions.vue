@@ -19,7 +19,7 @@
     <div class="columns is-mobile emotion-item" v-for="em in emotions">
       <div class="column is-two-fifths">
         <div class="heart">
-          <Heart :value="em.value" :size="60" :enabled="false" />
+          <Heart :value="em.value" :size="50" :enabled="false" />
         </div>
       </div>
       <div class="column">
@@ -172,7 +172,7 @@ export default {
 } */
 
 .emotion-item {
-  background-color: white;
+  background-color: #f8f4f8;
   padding-top: 10px;
   margin-bottom: 20px;
 

@@ -17,7 +17,7 @@
   </div>
   <div class="columns is-mobile">
     <div class="column">
-      <Heart :value="emotion.value ? emotion.value : 50" :size="60" :enabled="true" />
+      <Heart :value="emotion.value ? emotion.value : 50" :size="100" :enabled="true" />
       <router-link class="button next-button" to="emotion-text">Next</router-link>
     </div>
   </div>
@@ -71,11 +71,13 @@ export default {
   background-color: #F8F4F8;
   padding: 20px;
   margin-bottom: 0px;
+  flex: 1;
+  overflow: auto;
 }
 
 
 .help-text {
-  margin-top: 30px;
+  /* margin-top: 30px; */
 }
 
 .help-text .column p {
@@ -118,5 +120,6 @@ export default {
   padding-left: 30px;
   padding-right: 30px;
   color: #e096cb;
+  margin-top: 15px;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
 <div id="heart" class="row header">
-  <div class="heart-container" :class="[enabled ? enabledClass : disabledClass]">
+  <div class="heart-container" :class="[enabled ? enabledClass : disabledClass] + ' ' + 'size'+size">
     <div class="mask"></div>
     <canvas ref="canvas" id="canvas" width="206" height="180" @click="clickOnCanvas($event)">
     </canvas>
@@ -167,6 +167,21 @@ export default {
     height: 180px;
     position: relative;
     margin: 0 auto;
+}
+
+.size30 {
+  zoom: 0.3;
+    -moz-transform: scale(0.3);
+}
+
+.size50 {
+  zoom: 0.5;
+    -moz-transform: scale(0.5);
+}
+
+.size100 {
+  zoom: 1;
+    -moz-transform: scale(1);
 }
 
 .mask {
