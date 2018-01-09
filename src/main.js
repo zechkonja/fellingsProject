@@ -1,19 +1,26 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
-import vueResource from 'vue-resource';
+import VueResource from 'vue-resource';
 import GSignInButton from 'vue-google-signin-button';
 import firebase from 'firebase';
+import cryptico from 'cryptico';
 import VeeValidate from 'vee-validate';
 import App from './App';
 import router from './router';
 import './css/main.scss';
+import store from './store';
 
-Vue.use(vueResource);
+Vue.use(VueResource);
 Vue.use(GSignInButton);
 Vue.use(VeeValidate);
 
 Vue.use(require('vue-moment'));
+const VueTouch = require('vue-touch');
+
+Vue.use(VueTouch, {
+  name: 'v-touch',
+});
 
 Vue.config.productionTip = false;
 
@@ -30,6 +37,7 @@ const config = {
 firebase.initializeApp(config);
 
 Vue.filter('cutText', value => value.split(' ').slice(0, 15).join(' '));
+Vue.filter('decrypt', value => cryptico.decrypt(value, store.state.RSAkey).plaintext);
 
 /* eslint-disable no-new */
 new Vue({
@@ -37,6 +45,6 @@ new Vue({
   router,
   template: '<App/>',
   components: {
-    App
+    App,
   },
 });

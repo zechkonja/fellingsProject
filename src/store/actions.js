@@ -27,6 +27,7 @@ export default {
 
       // handle errors please
       context.commit('GET_EMOTIONS', emotions);
+
       context.commit('EMOTIONS_DATA_READY');
     });
   },

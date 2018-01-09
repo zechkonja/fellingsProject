@@ -29,6 +29,12 @@
     </div>
     <div class="columns is-mobile help-text">
       <div class="column">
+        <p>You can change your emotions</p>
+        <p>in the next <b>24 hours</b></p>
+      </div>
+    </div>
+    <div class="columns is-mobile help-text">
+      <div class="column">
         <p>Don't forget to share your emotions</p>
         <p>With your advisor :)</p>
       </div>
@@ -87,7 +93,7 @@ export default {
 
 
 .help-text {
-  margin-top: 30px;
+  margin-top: 0px;
 }
 
 .help-text .column p {

@@ -2,7 +2,7 @@
 <div id="new-emotion-content-text" class="row content">
   <div class="columns is-mobile">
     <div class="column">
-      <span>{{ emotion.value }}%</span> <span class="happiness-level">Happiness level</span>
+      <span class="emotion-value">{{ emotion.value }}%</span> <span class="happiness-level">Happiness level</span>
     </div>
     <div class="column">
       <a href="#" class="button share-button" v-bind:class="{ shared: emotion.shared }" v-on:click="shareState">
@@ -131,4 +131,9 @@ export default {
   height: 200px;
   padding: 5px;
 }
+
+.emotion-value {
+  font-weight: bolder;
+}
+
 </style>

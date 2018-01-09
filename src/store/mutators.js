@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import cryptico from 'cryptico';
 
 export default {
   LOGIN_USER(state) {
@@ -24,7 +25,8 @@ export default {
   },
 
   ADD_TEXT_VALUE(state, text) {
-    state.emotion.text = text;
+    const text1 = cryptico.encrypt(text, cryptico.publicKeyString(this.state.RSAkey));
+    state.emotion.text = text1.cipher;
   },
 
   RESET_EMOTION(state) {

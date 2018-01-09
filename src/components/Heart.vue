@@ -25,6 +25,7 @@ export default {
       selection: null,
       enabledClass: '',
       disabledClass: 'changeValue',
+      ongoingTouches: [],
     };
   },
   computed: {
@@ -39,6 +40,8 @@ export default {
   },
   beforeMount() {},
   mounted() {
+    this.startup();
+
     this.drawImageFromWebUrl(require('../assets/fill.png'));
     const reverse = 100 - this.$props.value;
     store.commit('ADD_EMOTION_VALUE', this.$props.value);
@@ -62,17 +65,142 @@ export default {
     img.setAttribute('src', require('../assets/fill.png'));
   },
   methods: {
+    startup() {
+      const canvas = this.$refs.canvas;
+      canvas.addEventListener('touchstart', (evt) => {
+        evt.preventDefault();
+        const el = this.$refs.canvas;
+        const ctx = el.getContext('2d');
+        const touches = evt.changedTouches;
+
+        for (let i = 0; i < touches.length; i = +1) {
+          this.ongoingTouches.push(this.copyTouch(touches[i]));
+          let exactHeight = touches[i].pageY - el.height - 20;
+          if (exactHeight < 0) {
+            exactHeight = 0;
+          } else if (exactHeight > 180) {
+            exactHeight = 180;
+          }
+
+          ctx.clearRect(0, 0, el.width, el.height);
+          ctx.fillRect(0, exactHeight, el.width, el.height);
+
+          const fullHeight = el.height;
+          const clickedHeight = exactHeight;
+
+          const number = Math.round((clickedHeight * 100) / fullHeight);
+          const reverseId = 100 - number;
+          store.commit('ADD_EMOTION_VALUE', reverseId);
+          store.commit('ADD_REVERSEDID_VALUE', number);
+        }
+      }, false);
+
+      canvas.addEventListener('touchend', (evt) => {
+        evt.preventDefault();
+        const el = this.$refs.canvas;
+        const ctx = el.getContext('2d');
+        const touches = evt.changedTouches;
+
+        for (let i = 0; i < touches.length; i = +1) {
+          const idx = this.ongoingTouchIndexById(touches[i].identifier);
+          if (idx >= 0) {
+            let exactHeight = touches[i].pageY - el.height - 20;
+            if (exactHeight < 0) {
+              exactHeight = 0;
+            } else if (exactHeight > 180) {
+              exactHeight = 180;
+            }
+
+            ctx.clearRect(0, 0, el.width, el.height);
+            ctx.fillRect(0, exactHeight, el.width, el.height);
+
+            const fullHeight = el.height;
+            const clickedHeight = exactHeight;
+
+            const number = Math.round((clickedHeight * 100) / fullHeight);
+            const reverseId = 100 - number;
+            store.commit('ADD_EMOTION_VALUE', reverseId);
+            store.commit('ADD_REVERSEDID_VALUE', number);
+            this.ongoingTouches.splice(idx, 1);
+          } else {
+            this.log('can not figure out which touch to end');
+          }
+        }
+      });
+
+      canvas.addEventListener('touchcancel', (evt) => {
+        evt.preventDefault();
+        const touches = evt.changedTouches;
+        for (let i = 0; i < touches.length; i = +1) {
+          const idx = this.ongoingTouchIndexById(touches[i].identifier);
+          this.ongoingTouches.splice(idx, 1);
+        }
+      });
+
+      canvas.addEventListener('touchmove', (evt) => {
+        evt.preventDefault();
+        const el = this.$refs.canvas;
+        const ctx = el.getContext('2d');
+        const touches = evt.changedTouches;
+
+        for (let i = 0; i < touches.length; i = +1) {
+          const idx = this.ongoingTouchIndexById(touches[i].identifier);
+
+          if (idx >= 0) {
+            let exactHeight = touches[i].pageY - el.height - 20;
+            if (exactHeight < 0) {
+              exactHeight = 0;
+            } else if (exactHeight > 180) {
+              exactHeight = 180;
+            }
+
+            ctx.clearRect(0, 0, el.width, el.height);
+            ctx.fillRect(0, exactHeight, el.width, el.height);
+
+            const fullHeight = el.height;
+            const clickedHeight = exactHeight;
+
+            const number = Math.round((clickedHeight * 100) / fullHeight);
+            const reverseId = 100 - number;
+            store.commit('ADD_EMOTION_VALUE', reverseId);
+            store.commit('ADD_REVERSEDID_VALUE', number);
+
+            this.ongoingTouches.splice(idx, 1, this.copyTouch(touches[i]));
+          } else {
+            this.log("can't figure out which touch to continue");
+          }
+        }
+      });
+    },
+    copyTouch(touch) {
+      return {
+        identifier: touch.identifier,
+        pageX: touch.pageX,
+        pageY: touch.pageY,
+      };
+    },
+    ongoingTouchIndexById(idToFind) {
+      for (let i = 0; i < this.ongoingTouches.length; i = +1) {
+        const id = this.ongoingTouches[i].identifier;
+
+        if (id === idToFind) {
+          return i;
+        }
+      }
+      return -1;
+    },
+    log(msg) {
+      console.log(msg);
+    },
     clickOnCanvas(e) {
       const canvas = this.$refs.canvas;
       const eventLocation = this.getEventLocation(canvas, e);
-      // let coord = `x=${eventLocation.x}, y=${eventLocation.y}`;
 
       const context = canvas.getContext('2d');
       const pixelData = context.getImageData(eventLocation.x, eventLocation.y, 1, 1).data;
 
       context.clearRect(0, 0, canvas.width, canvas.height);
       context.fillRect(0, eventLocation.y, canvas.width, canvas.height);
-      // If transparency on the image
 
       const fullHeight = canvas.height;
       const clickedHeight = eventLocation.y;
@@ -81,20 +209,6 @@ export default {
       const reverseId = 100 - number;
       store.commit('ADD_EMOTION_VALUE', reverseId);
       store.commit('ADD_REVERSEDID_VALUE', number);
-
-
-      // if ((pixelData[0] === 0) &&
-      //   (pixelData[1] === 0) &&
-      //   (pixelData[2] === 0) &&
-      //   (pixelData[3] === 0)) {
-      //   coord += ' (Transparent color detected, cannot be converted to HEX)';
-      // }
-
-      // const hex =
-      // `#${(`000000${this.rgbToHex(pixelData[0], pixelData[1], pixelData[2])}`).slice(-6)}`;
-      // Draw the color and coordinates.
-      // document.getElementById('status').innerHTML = coord;
-      // document.getElementById('color').style.backgroundColor = hex;
     },
     getElementPosition(obj) {
       let curleft = 0;
@@ -170,17 +284,17 @@ export default {
 }
 
 .size30 {
-  zoom: 0.3;
+    zoom: 0.3;
     -moz-transform: scale(0.3);
 }
 
 .size50 {
-  zoom: 0.5;
+    zoom: 0.5;
     -moz-transform: scale(0.5);
 }
 
 .size100 {
-  zoom: 1;
+    zoom: 1;
     -moz-transform: scale(1);
 }
 

@@ -32,7 +32,7 @@
             <span class="emotion-value">{{ em.value }}%</span><span>Happines level</span>
           </div>
           <div class="short-text">
-            <p>{{ em.text | cutText }}</p>
+            <p>{{ em.text | decrypt | cutText }}</p>
           </div>
           <div class="actions">
             <button class="clear-button edit"></button>
@@ -93,7 +93,7 @@ export default {
     }
   },
   mounted() {
-    store.commit('RESET_EMOTION');
+    store.dispatch('RESET_EMOTION');
     this.getEmotions();
   },
   methods: {
