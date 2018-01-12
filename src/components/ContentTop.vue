@@ -1,20 +1,13 @@
 <template>
-<div id="new-emotion-content" class="row content">
+<div id="content-top" class="row">
   <div class="columns is-mobile">
     <div class="column">
-      <h1>How do you feel?</h1>
+      <span class="emotion-value">{{ emotion.value }}%</span> <span class="happiness-level">Happiness level</span>
     </div>
-  </div>
-  <div class="columns is-mobile">
     <div class="column">
-      <Heart :value="emotion.value ? emotion.value : 50" :size="100" :enabled="true" />
-      <router-link class="button next-button" to="emotion-text">Next</router-link>
-    </div>
-  </div>
-  <div class="columns is-mobile help-text">
-    <div class="column">
-      <p>Emotions are crypted</p>
-      <p>Only you can see your fellings</p>
+      <a href="#" class="button share-button" v-bind:class="{ shared: emotion.shared }" v-on:click="shareState">
+        <i class="fa fa-share-alt" aria-hidden="true"></i>Share
+      </a>
     </div>
   </div>
 </div>
@@ -24,21 +17,25 @@
 // import config from '../components/Config';
 import router from '../router';
 import store from '../store';
-import Heart from './Heart';
 
 export default {
-  name: 'new-emotion-content',
-  components: {
-    Heart,
-  },
+  name: 'content-top',
   computed: {
     emotion() {
       return store.state.emotion;
     },
+    shared: {
+      set(v) {
+        store.commit('ADD_SHARED_VALUE', v);
+      },
+      get() {
+        return store.state.emotion.shared;
+      },
+    },
   },
   data() {
     return {
-      shared: false,
+      emotionText: '',
     };
   },
   beforeCreate() {
@@ -51,29 +48,16 @@ export default {
   methods: {
     shareState() {
       this.shared = !this.shared;
-      store.commit('ADD_SHARED_VALUE', this.shared);
     },
   },
 };
 </script>
 
 <style scoped>
-#new-emotion-content {
+#content-top {
   background-color: #F8F4F8;
   padding: 20px;
   margin-bottom: 0px;
-  flex: 1;
-  overflow: auto;
-}
-
-
-.help-text {
-  /* margin-top: 30px; */
-}
-
-.help-text .column p {
-  margin-bottom: 0;
-  font-size: 14px;
 }
 
 .share-button {
@@ -103,14 +87,11 @@ export default {
   color: white;
 }
 
-.next-button {
-  background-color: transparent;
-  border-radius: 50px;
-  font-weight: bold;
-  font-size: 18px;
-  padding-left: 30px;
-  padding-right: 30px;
-  color: #e096cb;
-  margin-top: 15px;
+.emotion-value {
+  font-weight: bolder;
 }
+
+
+/* brisi na dolee */
+
 </style>

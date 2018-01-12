@@ -1,6 +1,7 @@
 <template>
 <div id="emotion-text" class="box">
   <app-header></app-header>
+  <app-content-top></app-content-top>
   <app-content></app-content>
   <app-footer></app-footer>
 </div>
@@ -15,6 +16,7 @@ import store from '../store';
 import appHeader from './Header';
 import NewEmotionContenttext from './NewEmotionContentText';
 import appFooter from './Footer';
+import appContentTop from './ContentTop';
 
 export default {
   name: 'emotion-text',
@@ -22,6 +24,7 @@ export default {
     'app-header': appHeader,
     'app-content': NewEmotionContenttext,
     'app-footer': appFooter,
+    'app-content-top': appContentTop,
   },
   data() {
     return {

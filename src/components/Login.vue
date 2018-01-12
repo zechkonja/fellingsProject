@@ -68,6 +68,7 @@ export default {
       firebase.auth().signInWithPopup(provider).then((result) => {
         store.dispatch('VERIFY_USER', result.user);
         store.commit('LOGIN_USER');
+        store.dispatch('UPDATE');
         router.push('/');
         // ...
       }).catch((error) => {
@@ -82,9 +83,9 @@ export default {
           router.push('/');
         }).catch((error) => {
         // const errorCode = error.code;
-          const errorMessage = error.message;
-          throw new Error(errorMessage);
-        });
+        const errorMessage = error.message;
+        throw new Error(errorMessage);
+      });
     },
     validateEmailAddress: (e) => {
       if (e.keyCode === 13) {

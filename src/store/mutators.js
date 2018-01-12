@@ -25,8 +25,7 @@ export default {
   },
 
   ADD_TEXT_VALUE(state, text) {
-    const text1 = cryptico.encrypt(text, cryptico.publicKeyString(this.state.RSAkey));
-    state.emotion.text = text1.cipher;
+    state.emotion.text = text;
   },
 
   RESET_EMOTION(state) {
@@ -54,12 +53,20 @@ export default {
     state.advisors = advisors;
   },
 
-  EDIT_EMOTION(state, e) {
-    e.shared = !e.shared;
-    firebase.database().ref().child(`/emotions/${this.state.userId}/${e.id}`)
-      .update({
-        shared: e.shared,
-      });
+  EDIT_EMOTION(state, emotion) {
+    state.emotions.forEach((element, index) => {
+      if (element.id === emotion.id) {
+        state.emotions[index].shared = emotion.shared;
+      }
+    });
+  },
+
+  UPDATE_EMOTION(state, emotion) {
+    state.emotions.forEach((element, index) => {
+      if (element.id === emotion.id) {
+        state.emotions[index].text = cryptico.encrypt(emotion.text, cryptico.publicKeyString(this.state.RSAkey)).cipher;
+      }
+    });
   },
 
   EMOTIONS_DATA_READY(state) {
@@ -68,6 +75,11 @@ export default {
 
   ADVISORS_DATA_READY(state) {
     state.advisorsReady = true;
+  },
+
+  DELETE_EMOTION(state, emotion) {
+    const index = state.emotions.indexOf(emotion.id);
+    state.emotions.splice(index, 1);
   },
 
 };

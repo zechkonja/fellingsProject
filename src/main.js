@@ -5,15 +5,17 @@ import VueResource from 'vue-resource';
 import GSignInButton from 'vue-google-signin-button';
 import firebase from 'firebase';
 import cryptico from 'cryptico';
+import Buefy from 'buefy';
+import 'buefy/lib/buefy.css';
 import VeeValidate from 'vee-validate';
 import App from './App';
 import router from './router';
 import './css/main.scss';
-import store from './store';
 
 Vue.use(VueResource);
 Vue.use(GSignInButton);
 Vue.use(VeeValidate);
+Vue.use(Buefy);
 
 Vue.use(require('vue-moment'));
 const VueTouch = require('vue-touch');
@@ -37,7 +39,6 @@ const config = {
 firebase.initializeApp(config);
 
 Vue.filter('cutText', value => value.split(' ').slice(0, 15).join(' '));
-Vue.filter('decrypt', value => cryptico.decrypt(value, store.state.RSAkey).plaintext);
 
 /* eslint-disable no-new */
 new Vue({

@@ -1,19 +1,19 @@
 <template>
-<div id="new-emotion-content-text" class="row content">
+<div id="update-content-text" class="row content">
   <div class="columns is-mobile">
     <div class="column">
-      <h1>Why do you feel this way?</h1>
+      <h1>Update your felling!</h1>
     </div>
   </div>
   <div class="columns is-mobile">
     <div class="column">
-      <textarea v-model="emotionText" class="fellings-textarea" placeholder="Describe your fellings...">
+      <textarea v-model="updateEmotion.text" class="fellings-textarea" placeholder="Describe your fellings...">
       </textarea>
     </div>
   </div>
   <div class="columns is-mobile">
     <div class="column">
-      <button class="button login-btn" v-on:click="save">Save your emotion</button>
+      <button class="button login-btn" v-on:click="save">Update your emotion</button>
     </div>
   </div>
 </div>
@@ -26,7 +26,7 @@ import router from '../router';
 import store from '../store';
 
 export default {
-  name: 'new-emotion-content-text',
+  name: 'update-content-text',
   props: ['UpdateEmotion'],
   computed: {
     emotion() {
@@ -59,15 +59,15 @@ export default {
       this.shared = !this.shared;
     },
     save() {
-      store.dispatch('SAVE_EMOTION', this.emotionText);
-      router.push('/added');
+      store.dispatch('UPDATE_EMOTION', this.updateEmotion);
+      this.$emit('close');
     },
   },
 };
 </script>
 
 <style scoped>
-#new-emotion-content-text {
+#update-content-text {
   background-color: #F8F4F8;
   padding: 20px;
   margin-bottom: 0px;
