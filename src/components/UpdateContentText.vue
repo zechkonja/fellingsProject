@@ -7,13 +7,14 @@
   </div>
   <div class="columns is-mobile">
     <div class="column">
-      <textarea v-model="updateEmotion.text" class="fellings-textarea" placeholder="Describe your fellings...">
+      <textarea v-model="emotionText" class="fellings-textarea" placeholder="Describe your fellings...">
       </textarea>
     </div>
   </div>
   <div class="columns is-mobile">
     <div class="column">
       <button class="button login-btn" v-on:click="save">Update your emotion</button>
+      <button @click="back" type="button" class="button back-button">Back</button>
     </div>
   </div>
 </div>
@@ -27,24 +28,14 @@ import store from '../store';
 
 export default {
   name: 'update-content-text',
-  props: ['UpdateEmotion'],
   computed: {
-    emotion() {
-      return store.state.emotion;
-    },
-    shared: {
-      set(v) {
-        store.commit('ADD_SHARED_VALUE', v);
-      },
-      get() {
-        return store.state.emotion.shared;
-      },
+    updateEmotion() {
+      return store.state.updateEmotion;
     },
   },
   data() {
     return {
       emotionText: '',
-      updateEmotion: this.$props.UpdateEmotion,
     };
   },
   beforeCreate() {
@@ -53,15 +44,19 @@ export default {
     }
   },
   mounted() {
+    this.emotionText = this.updateEmotion.text;
   },
   methods: {
     shareState() {
       this.shared = !this.shared;
     },
     save() {
-      store.dispatch('UPDATE_EMOTION', this.updateEmotion);
-      this.$emit('close');
+      store.dispatch('UPDATE_EMOTION', this.emotionText);
+      router.push('/emotions');
     },
+    back() {
+      router.push('/emotions');
+    }
   },
 };
 </script>
@@ -132,4 +127,16 @@ export default {
   font-weight: bolder;
 }
 
+
+.back-button {
+  background-color: transparent;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 14px;
+  padding-left: 30px;
+  padding-right: 30px;
+  color: #e096cb;
+  border: 1px solid #e096cb;
+  margin-top: 15px;
+}
 </style>

@@ -38,12 +38,13 @@ export default {
     context.commit('DELETE_EMOTION', emotion);
   },
 
-  UPDATE_EMOTION(context, emotion) {
-    firebase.database().ref().child(`/emotions/${this.state.userId}/${emotion.id}`)
+  UPDATE_EMOTION(context, text) {
+    const cryptedText = cryptico.encrypt(text, cryptico.publicKeyString(this.state.RSAkey)).cipher;
+    firebase.database().ref().child(`/emotions/${this.state.userId}/${this.state.updateEmotion.id}`)
       .update({
-        text: cryptico.encrypt(emotion.text, cryptico.publicKeyString(this.state.RSAkey)).cipher,
+        text: cryptedText,
       });
-    context.commit('UPDATE_EMOTION', emotion);
+    context.commit('UPDATE_EMOTION', cryptedText);
   },
 
   GET_EMOTIONS(context) {
@@ -64,11 +65,11 @@ export default {
 
   GET_ADVISORS(context) {
     const advisors = [];
-    const leadsRef = firebase.database().ref('/users/');
+    const leadsRef = firebase.database().ref('/advisors');
     leadsRef.on('value', (snapshot) => {
       snapshot.forEach((childSnapshot) => {
         const childData = childSnapshot.val();
-        if (childData.isPsy === true) {
+        if (context.rootState.choosenOffice.id === childData.officeId) {
           childData.id = childSnapshot.key;
           advisors.push(childData);
         }
@@ -111,6 +112,22 @@ export default {
         });
       }
     });
+    context.commit('USER_DATA', user);
+    context.dispatch('CHECK_CONNECTION', user);
+  },
+
+  CHECK_CONNECTION(context, user) {
+    const leadsRef = firebase.database().ref('connections/');
+    leadsRef.once('value', (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        childSnapshot.forEach((connected) => {
+          const con = connected.val();
+          if (con.patient === user.uid) {
+            context.commit('CHECK_CONNECTION', con);
+          }
+        });
+      });
+    });
   },
 
   DATA_READY(context) {
@@ -123,6 +140,63 @@ export default {
 
   ADD_TEXT_VALUE(context, text) {
     context.commit('ADD_TEXT_VALUE', text);
+  },
+
+  ADD_VALUE_FOR_UPDATE(context, emotion) {
+    context.commit('ADD_VALUE_FOR_UPDATE', emotion);
+  },
+
+  GET_OFFICES(context) {
+    const offices = [];
+    const leadsRef = firebase.database().ref('/offices');
+    leadsRef.on('value', (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        childSnapshot.forEach((child) => {
+          const office = child.val();
+          offices.push(office);
+        });
+      });
+
+      // handle errors please
+      context.commit('GET_OFFICES', offices);
+      context.commit('OFFICES_DATA_READY');
+    });
+  },
+
+  SET_OFFICE(context, office) {
+    context.commit('SET_OFFICE', office);
+  },
+
+  SET_ADVISOR(context, advisor) {
+    context.commit('SET_ADVISOR', advisor);
+  },
+
+  CHECK_ADDED_CONNECTION(context) {
+    const leadsRef = firebase.database().ref('connections/');
+    leadsRef.once('value', (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        childSnapshot.forEach((connected) => {
+          const con = connected.val();
+          if (con.patient === context.rootState.choosenAdvisor.id) {
+            context.commit('CHECK_ADDED_CONNECTION', true);
+          }
+        });
+      });
+    });
+  },
+
+  RESET_CHECK_CONNECTION(context) {
+    context.commit('CHECK_ADDED_CONNECTION', false);
+  },
+
+  CREATE_CONNECTION(context, advisor) {
+    const newPostKey = firebase.database().ref('connections').child(advisor.id).push().key;
+    firebase.database().ref(`/connections/${advisor.id}/${newPostKey}`).set({
+      insertDate: Math.floor(Date.now() / 1000),
+      approved: false,
+      patient: this.state.userId,
+      fullName: this.state.userInfo.displayName,
+    });
   },
 
 };

@@ -1,32 +1,32 @@
 <template>
-<div id="all-advisors" class="row content">
+<div id="all-offices" class="row content">
   <div class="columns is-mobile">
     <div class="column">
-      <h2>Choose your advisor</h2>
+      <h2>Choose Office</h2>
     </div>
   </div>
   <div class="columns is-mobile">
     <div class="column">
-      <span class="happiness-level">Your coach to happines</span>
+      <span class="happiness-level">Choose office from list</span>
     </div>
   </div>
   <div :class="{'is-waiting': !dataReady}">
-    <div class="columns is-mobile emotion-item" v-for="advisor in advisors">
+    <div class="columns is-mobile emotion-item" v-for="office in offices">
       <div class="column is-two-fifths">
         <div class="image">
-          <img :src="advisor.imageUrl ? advisor.imageUrl : require('../assets/advisor_img.png')" />
+          <img :src="office.imageUrl ? office.imageUrl : require('../assets/advisor_img.png')" />
         </div>
       </div>
       <div class="column">
         <div class="info">
           <div class="title">
-            {{advisor.fullName}}
+            {{office.name}}
           </div>
           <div class="short-text">
-            {{advisor.about | cutText}}
+            {{office.shortInfo | cutText}}
           </div>
           <div class="actions">
-            <button @click="chooseAdvisor(advisor)" class="clear-button advisor-btn">Choose Advisor</button>
+            <button @click="chooseOffice(office)" class="clear-button advisor-btn">Choose Office</button>
           </div>
         </div>
       </div>
@@ -41,13 +41,13 @@ import router from '../router';
 import store from '../store';
 
 export default {
-  name: 'all-advisors',
+  name: 'all-offices',
   computed: {
-    advisors() {
-      return store.state.advisors;
+    offices() {
+      return store.state.offices;
     },
     dataReady() {
-      return store.state.advisorsReady;
+      return store.state.officesReady;
     },
   },
   data() {
@@ -59,23 +59,24 @@ export default {
     }
   },
   mounted() {
-    this.getAdvisors();
+    this.getOffice();
     store.commit('RESET_EMOTION');
   },
   methods: {
-    getAdvisors() {
-      store.dispatch('GET_ADVISORS');
+    getOffice() {
+      store.dispatch('GET_OFFICES');
     },
-    chooseAdvisor(advisor) {
-      store.dispatch('SET_ADVISOR', advisor);
-      router.push('/choose-advisor');
+    chooseOffice(office) {
+      store.dispatch('SET_OFFICE', office);
+      store.dispatch('GET_ADVISORS');
+      router.push('/advisors');
     },
   },
 };
 </script>
 
 <style scoped>
-#all-advisors {
+#all-offices {
   background-color: #f8f4f8;
   padding: 20px;
   margin-bottom: 0px;

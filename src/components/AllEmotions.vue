@@ -57,13 +57,11 @@ import cryptico from 'cryptico';
 import router from '../router';
 import store from '../store';
 import Heart from './Heart';
-import UpdateEmotionContentText from './UpdateContentText';
 
 export default {
   name: 'all-emotions',
   components: {
     Heart,
-    UpdateEmotionContentText,
   },
   computed: {
     emotion() {
@@ -140,14 +138,8 @@ export default {
     },
 
     openEdit(emotion) {
-      this.$modal.open({
-        parent: this,
-        component: UpdateEmotionContentText,
-        hasModalCard: false,
-        props: {
-          UpdateEmotion: emotion,
-        },
-      });
+      store.dispatch('ADD_VALUE_FOR_UPDATE', emotion);
+      router.push('/update-emotion');
     },
 
   },

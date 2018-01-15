@@ -10,6 +10,14 @@ const state = {
   isLogged: !!localStorage.getItem('firebase:authUser:AIzaSyCOvVWZXKyn31ose1KhyxpYIzP44Rizp0E:[DEFAULT]'),
   userId: (JSON.parse(localStorage.getItem('firebase:authUser:AIzaSyCOvVWZXKyn31ose1KhyxpYIzP44Rizp0E:[DEFAULT]'))) ? JSON.parse(localStorage.getItem('firebase:authUser:AIzaSyCOvVWZXKyn31ose1KhyxpYIzP44Rizp0E:[DEFAULT]')).uid : '',
   RSAkey: cryptico.generateRSAKey('The Moon is a Harsh Mistress.', 1024),
+  connected: false,
+  approved: false,
+  added: false,
+  userInfo: {
+    displayName: '',
+    email: '',
+    uid: 0,
+  },
   emotion: {
     insertDate: '',
     shared: false,
@@ -18,10 +26,38 @@ const state = {
     error: false,
     reversedId: 0,
   },
+  updateEmotion: {
+    insertDate: '',
+    shared: false,
+    text: '',
+    value: 0,
+    error: false,
+    reversedId: 0,
+  },
+  choosenOffice: {
+    address: '',
+    id: 0,
+    name: '',
+    officeUrl: '',
+    imageUrl: '',
+    phone: 0,
+    shortInfo: 0,
+  },
+  choosenAdvisor: {
+    fullName: '',
+    about: '',
+    experience: 0,
+    fallowers: 0,
+    imageUrl: '',
+    officeId: 0,
+    rating: 0,
+  },
   emotions: [],
   advisors: [],
+  offices: [],
   emotionsReady: false,
   advisorsReady: false,
+  officesReady: false,
 };
 
 const getters = {

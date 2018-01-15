@@ -16,7 +16,12 @@
 
         </div>
         <div class="column">
-          <router-link class="button" :to="'/advisors'"><img src="../assets/emotion-adv-icon.png" /> Emotion Advisor</router-link>
+          <div v-if="connected">
+            <router-link class="button" :to="'/advisors'"><img src="../assets/emotion-adv-icon.png" />Emotion Advisor</router-link>
+          </div>
+          <div v-else>
+            <router-link class="button" :to="'/offices'"><img src="../assets/emotion-adv-icon.png" />Choose Office</router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -44,6 +49,12 @@ export default {
   computed: {
     emotion() {
       return store.state.emotion;
+    },
+    approved() {
+      return store.state.approved;
+    },
+    connected() {
+      return store.state.connected;
     },
   },
   data() {

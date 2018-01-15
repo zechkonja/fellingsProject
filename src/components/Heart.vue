@@ -75,7 +75,7 @@ export default {
 
         for (let i = 0; i < touches.length; i = +1) {
           this.ongoingTouches.push(this.copyTouch(touches[i]));
-          let exactHeight = touches[i].pageY - el.height - 40;
+          let exactHeight = touches[i].pageY - el.height - 60;
           if (exactHeight < 0) {
             exactHeight = 0;
           } else if (exactHeight > 180) {
@@ -104,7 +104,7 @@ export default {
         for (let i = 0; i < touches.length; i = +1) {
           const idx = this.ongoingTouchIndexById(touches[i].identifier);
           if (idx >= 0) {
-            let exactHeight = touches[i].pageY - el.height - 40;
+            let exactHeight = touches[i].pageY - el.height - 60;
             if (exactHeight < 0) {
               exactHeight = 0;
             } else if (exactHeight > 180) {
@@ -147,7 +147,7 @@ export default {
           const idx = this.ongoingTouchIndexById(touches[i].identifier);
 
           if (idx >= 0) {
-            let exactHeight = touches[i].pageY - el.height - 40;
+            let exactHeight = touches[i].pageY - el.height - 60;
             if (exactHeight < 0) {
               exactHeight = 0;
             } else if (exactHeight > 180) {

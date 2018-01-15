@@ -44,7 +44,6 @@ export default {
   data() {
     return {
       emotionText: '',
-      updateEmotion: this.$props.UpdateEmotion,
     };
   },
   beforeCreate() {

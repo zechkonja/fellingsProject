@@ -8,6 +8,8 @@ import Emotions from '@/components/Emotions';
 import EmotionsAdded from '@/components/EmotionsAdded';
 import Advisors from '@/components/Advisors';
 import ChooseAdvisor from '@/components/ChooseAdvisor';
+import UpdateEmotion from '@/components/UpdateEmotion';
+import Offices from '@/components/Offices';
 
 Vue.use(Router);
 
@@ -46,6 +48,11 @@ export default new Router({
       component: EmotionsAdded,
     },
     {
+      path: '/offices',
+      name: 'Offices',
+      component: Offices,
+    },
+    {
       path: '/advisors',
       name: 'Advisors',
       component: Advisors,
@@ -54,6 +61,11 @@ export default new Router({
       path: '/choose-advisor',
       name: 'ChooseAdvisor',
       component: ChooseAdvisor,
+    },
+    {
+      path: '/update-emotion',
+      name: 'UpdateEmotion',
+      component: UpdateEmotion,
     },
   ],
 });

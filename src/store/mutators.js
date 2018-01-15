@@ -61,10 +61,10 @@ export default {
     });
   },
 
-  UPDATE_EMOTION(state, emotion) {
+  UPDATE_EMOTION(state, cryptedText) {
     state.emotions.forEach((element, index) => {
-      if (element.id === emotion.id) {
-        state.emotions[index].text = cryptico.encrypt(emotion.text, cryptico.publicKeyString(this.state.RSAkey)).cipher;
+      if (element.id === state.updateEmotion.id) {
+        state.emotions[index].text = cryptedText;
       }
     });
   },
@@ -80,6 +80,43 @@ export default {
   DELETE_EMOTION(state, emotion) {
     const index = state.emotions.indexOf(emotion.id);
     state.emotions.splice(index, 1);
+  },
+
+  ADD_VALUE_FOR_UPDATE(state, emotion) {
+    state.updateEmotion = emotion;
+  },
+
+  CHECK_CONNECTION(state, connection) {
+    state.connected = true;
+    state.approved = connection.approved;
+  },
+
+  GET_OFFICES(state, offices) {
+    state.offices = offices;
+  },
+
+  OFFICES_DATA_READY(state) {
+    state.officesReady = true;
+  },
+
+  SET_OFFICE(state, office) {
+    state.choosenOffice = office;
+  },
+
+  SET_ADVISOR(state, advisor) {
+    state.choosenAdvisor = advisor;
+  },
+
+  USER_DATA(state, user) {
+    state.userInfo = {
+      displayName: user.displayName,
+      email: user.email,
+      uid: user.uid,
+    };
+  },
+
+  CHECK_ADDED_CONNECTION(state, added) {
+    state.added = added;
   },
 
 };

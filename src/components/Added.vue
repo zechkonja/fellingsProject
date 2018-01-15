@@ -126,20 +126,6 @@ export default {
   color: white;
 }
 
-
-.added {
-  background-color: transparent !important;
-  background-image: url('../assets/added.png');
-  width: 111px;
-  height: 111px;
-  color: inherit;
-  border: none;
-  padding: 0! important;
-  font: inherit;
-  cursor: pointer;
-  outline: inherit !important;
-}
-
 .added1 {
   background-color: transparent !important;
   width: 111px;

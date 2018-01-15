@@ -16,13 +16,9 @@
       <div class="navbar-menu" id="navMenu" v-bind:class="{ 'is-active': activator }">
         <div class="navbar-end">
           <div class="navbar-item">
-            <a class="" href="#"> Docs </a>
-          </div>
-          <div class="navbar-item ">
-            <a class="" href="#"> Report </a>
-          </div>
-          <div class="navbar-item">
-            <a class="">More</a>
+            <router-link class="navbar-item" to="/help">
+                <span class="nav-title">Help</span>
+            </router-link>
           </div>
           <div class="navbar-item">
             <button class="button" v-on:click="logout">Logout</button>
@@ -66,6 +62,9 @@ export default {
     makeBurger() {
       this.activator = !this.activator;
       return this.activator;
+    },
+    help() {
+
     },
   },
 };

@@ -3,6 +3,7 @@
   <div class="columns is-mobile">
     <div class="column">
       <h1>How do you feel?</h1>
+      <span>Click on Heart</span>
     </div>
   </div>
   <div class="columns is-mobile">
@@ -110,7 +111,8 @@ export default {
   font-size: 18px;
   padding-left: 30px;
   padding-right: 30px;
-  color: #e096cb;
+  color: #996dd5;
+  border: 1px solid #996dd5; 
   margin-top: 15px;
 }
 </style>
