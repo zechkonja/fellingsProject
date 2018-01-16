@@ -21,8 +21,8 @@
         <div>You don't have any emotions! Add some!</div>
       </div>
     </div>
-    <div class="columns is-mobile emotion-item" v-for="em in encryptedEmotions">
-      <button @click="confirmCustomDelete(em)" v-show="em.oneDayEdit" type="button" class="delete right-corner"></button>
+    <div class="columns is-mobile emotion-item" v-for="(em, index) in encryptedEmotions">
+      <button @click="confirmCustomDelete(em, index)" v-show="em.oneDayEdit" type="button" class="delete right-corner"></button>
       <div class="column is-two-fifths">
         <div class="heart">
           <Heart :value="em.value" :size="50" :enabled="false" />
@@ -52,7 +52,6 @@
 </template>
 
 <script>
-// import config from '../components/Config';
 import router from '../router';
 import store from '../store';
 import Heart from './Heart';
@@ -110,6 +109,7 @@ export default {
     store.dispatch('GET_EMOTIONS');
   },
   mounted() {
+    store.dispatch('GET_EMOTIONS');
     this.interval = setInterval(() => {
       store.dispatch('UPDATE');
     }, 43200);
@@ -124,15 +124,10 @@ export default {
         this.isActive = !this.isActive;
       }
     },
-    confirmCustomDelete(emotion) {
-      this.$dialog.confirm({
-        title: 'Deleting emotion',
-        message: 'Are you sure you want to <b>delete</b> your emotion? This action cannot be undone.',
-        confirmText: 'Delete emotion',
-        type: 'is-danger',
-        hasIcon: true,
-        onConfirm: () => store.dispatch('DELETE_EMOTION', emotion),
-      });
+    confirmCustomDelete(emotion, index) {
+      store.dispatch('ADD_EMOTION_FOR_REMOVE', emotion);
+      store.dispatch('ADD_INDEX_FOR_REMOVE', index);
+      router.push('/delete-emotion');
     },
 
     openEdit(emotion) {
@@ -153,50 +148,8 @@ export default {
     overflow: auto;
 }
 
-.share-button {
-    background-color: transparent;
-    border-radius: 50px;
-    font-weight: bold;
-    font-size: 12px;
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-.share-button i {
-    margin-right: 5px;
-}
-
-.fa-share-alt::before {
-    font-size: 10px;
-    font-weight: 100;
-}
-
 .happiness-level {
     font-size: 12px;
-}
-
-.shared {
-    background-color: #e74c9c;
-    color: white;
-}
-
-.login-btn {
-    width: 100%;
-    border-radius: 50px;
-    color: white;
-    font-weight: 500;
-
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#9274dc+0,b862bf+41,fb438d+100 */
-    background: rgb(146, 116, 220);
-    /* Old browsers */
-    background: -moz-linear-gradient(left, rgba(146, 116, 220, 1) 0%, rgba(184, 98, 191, 1) 41%, rgba(251, 67, 141, 1) 100%);
-    /* FF3.6-15 */
-    background: -webkit-linear-gradient(left, rgba(146, 116, 220, 1) 0%, rgba(184, 98, 191, 1) 41%, rgba(251, 67, 141, 1) 100%);
-    /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right, rgba(146, 116, 220, 1) 0%, rgba(184, 98, 191, 1) 41%, rgba(251, 67, 141, 1) 100%);
-    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=  '#9274dc', endColorstr='#fb438d', GradientType=1);
-    /* IE6-9 */
 }
 
 .emotion-item {

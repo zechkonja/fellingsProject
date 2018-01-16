@@ -1,5 +1,4 @@
-import firebase from 'firebase';
-import cryptico from 'cryptico';
+import Vue from 'vue';
 
 export default {
   LOGIN_USER(state) {
@@ -77,13 +76,24 @@ export default {
     state.advisorsReady = true;
   },
 
-  DELETE_EMOTION(state, emotion) {
-    const index = state.emotions.indexOf(emotion.id);
-    state.emotions.splice(index, 1);
+  DELETE_EMOTION(state) {
+    state.emotions.forEach((element, index) => {
+      if (element.id === state.removeEmotion.id) {
+        delete state.emotions[index];
+      }
+    });
   },
 
   ADD_VALUE_FOR_UPDATE(state, emotion) {
     state.updateEmotion = emotion;
+  },
+
+  ADD_EMOTION_FOR_REMOVE(state, emotion) {
+    state.removeEmotion = emotion;
+  },
+
+  ADD_INDEX_FOR_REMOVE(state, index) {
+    state.removeEmotionIndex = index;
   },
 
   CHECK_CONNECTION(state, connection) {

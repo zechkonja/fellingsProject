@@ -34,6 +34,15 @@ const state = {
     error: false,
     reversedId: 0,
   },
+  removeEmotion: {
+    insertDate: '',
+    shared: false,
+    text: '',
+    value: 0,
+    error: false,
+    reversedId: 0,
+  },
+  removeEmotionIndex: 0,
   choosenOffice: {
     address: '',
     id: 0,

@@ -20,7 +20,7 @@ export default {
 
   SAVE_EMOTION(context, emotionText) {
     context.commit('ADD_TEXT_VALUE',
-    cryptico.encrypt(emotionText, cryptico.publicKeyString(this.state.RSAkey)).cipher);
+      cryptico.encrypt(emotionText, cryptico.publicKeyString(this.state.RSAkey)).cipher);
     const newPostKey = firebase.database().ref('emotions').child(this.state.userId).push().key;
     firebase.database().ref(`/emotions/${this.state.userId}/${newPostKey}`).set({
       insertDate: Math.floor(Date.now() / 1000),
@@ -34,9 +34,9 @@ export default {
     context.commit('SAVE_EMOTION');
   },
 
-  DELETE_EMOTION(context, emotion) {
-    firebase.database().ref(`/emotions/${this.state.userId}/${emotion.id}`).remove();
-    context.commit('DELETE_EMOTION', emotion);
+  DELETE_EMOTION(context) {
+    firebase.database().ref(`/emotions/${this.state.userId}/${this.state.removeEmotion.id}`).remove();
+    context.commit('DELETE_EMOTION');
   },
 
   UPDATE_EMOTION(context, text) {
@@ -203,6 +203,14 @@ export default {
     firebase.database().ref(`/connections/${this.state.choosenAdvisor.id}/${connection.id}`).remove();
 
     //  context.commit('DELETE_CONNECTION', emotion);
+  },
+
+  ADD_EMOTION_FOR_REMOVE(context, emotion) {
+    context.commit('ADD_EMOTION_FOR_REMOVE', emotion);
+  },
+
+  ADD_INDEX_FOR_REMOVE(context, index) {
+    context.commit('ADD_INDEX_FOR_REMOVE', index);
   },
 
 };

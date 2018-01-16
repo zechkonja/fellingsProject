@@ -11,6 +11,7 @@ import ChooseAdvisor from '@/components/ChooseAdvisor';
 import UpdateEmotion from '@/components/UpdateEmotion';
 import Offices from '@/components/Offices';
 import Help from '@/components/Help';
+import DeleteEmotion from '@/components/DeleteEmotion';
 
 Vue.use(Router);
 
@@ -72,6 +73,11 @@ export default new Router({
       path: '/help',
       name: 'Help',
       component: Help,
+    },
+    {
+      path: '/delete-emotion',
+      name: 'DeleteEmotion',
+      component: DeleteEmotion,
     },
   ],
 });

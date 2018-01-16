@@ -4,7 +4,6 @@ import Vue from 'vue';
 import VueResource from 'vue-resource';
 import GSignInButton from 'vue-google-signin-button';
 import firebase from 'firebase';
-import cryptico from 'cryptico';
 import Buefy from 'buefy';
 import 'buefy/lib/buefy.css';
 import VeeValidate from 'vee-validate';
