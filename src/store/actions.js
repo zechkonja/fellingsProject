@@ -172,21 +172,20 @@ export default {
   },
 
   CHECK_ADDED_CONNECTION(context) {
-    const leadsRef = firebase.database().ref('connections/');
+    const leadsRef = firebase.database().ref(`connections/${this.state.choosenAdvisor.id}`);
     leadsRef.once('value', (snapshot) => {
       snapshot.forEach((childSnapshot) => {
-        childSnapshot.forEach((connected) => {
-          const con = connected.val();
-          if (con.patient === context.rootState.choosenAdvisor.id) {
-            context.commit('CHECK_ADDED_CONNECTION', true);
-          }
-        });
+        const con = childSnapshot.val();
+        con.id = childSnapshot.key;
+        if (con.patient === this.state.userId) {
+          context.commit('CHECK_ADDED_CONNECTION', con);
+        }
       });
     });
   },
 
   RESET_CHECK_CONNECTION(context) {
-    context.commit('CHECK_ADDED_CONNECTION', false);
+    context.commit('RESET_ADDED_CONNECTION');
   },
 
   CREATE_CONNECTION(context, advisor) {
@@ -197,6 +196,12 @@ export default {
       patient: this.state.userId,
       fullName: this.state.userInfo.displayName,
     });
+  },
+
+  DELETE_CONNECTION(context, connection) {
+    firebase.database().ref(`/connections/${this.state.choosenAdvisor.id}/${connection.id}`).remove();
+
+    //  context.commit('DELETE_CONNECTION', emotion);
   },
 
 };

@@ -115,8 +115,12 @@ export default {
     };
   },
 
-  CHECK_ADDED_CONNECTION(state, added) {
-    state.added = added;
+  CHECK_ADDED_CONNECTION(state, connection) {
+    state.addedConnection = connection;
+  },
+
+  RESET_ADDED_CONNECTION(state) {
+    state.addedConnection = {};
   },
 
 };

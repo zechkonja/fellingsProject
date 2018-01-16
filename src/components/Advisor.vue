@@ -9,10 +9,10 @@
       <div class="advisor-name">
         <h5>{{advisor.fullName}}</h5>
       </div>
-      <div v-show="!isAdded">
+      <div v-show="!addedConnection.patient">
         <button @click="add" class="button add-advisor">Add</button>
       </div>
-      <div v-show="isAdded">
+      <div v-show="addedConnection.patient">
         <button @click="remove" class="button add-advisor">Remove</button>
       </div>
     </div>
@@ -74,8 +74,13 @@ export default {
     advisor() {
       return store.state.choosenAdvisor;
     },
-    isAdded() {
-      return store.state.added;
+    addedConnection: {
+      set() {
+
+      },
+      get() {
+        return store.state.addedConnection;
+      },
     },
     error() {
       return store.state.error;
@@ -112,7 +117,18 @@ export default {
       });
     },
     remove() {
-
+      this.$dialog.confirm({
+        title: 'Deleting connection',
+        message: 'Are you sure you want to <b>delete</b> connection with advisor? This action cannot be undone.',
+        confirmText: 'Delete connection',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () => {
+          this.isAdded = false;
+          store.dispatch('DELETE_CONNECTION', this.addedConnection);
+          router.push('/emotions');
+        },
+      });
     },
   },
 };

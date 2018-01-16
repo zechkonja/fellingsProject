@@ -12,7 +12,7 @@ const state = {
   RSAkey: cryptico.generateRSAKey('The Moon is a Harsh Mistress.', 1024),
   connected: false,
   approved: false,
-  added: false,
+  addedConnection: {},
   userInfo: {
     displayName: '',
     email: '',

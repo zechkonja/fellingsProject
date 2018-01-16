@@ -16,10 +16,10 @@
 
         </div>
         <div class="column">
-          <div v-if="connected">
+          <!-- <div v-if="connected">
             <router-link class="button" :to="'/advisors'"><img src="../assets/emotion-adv-icon.png" />Emotion Advisor</router-link>
-          </div>
-          <div v-else>
+          </div> -->
+          <div>
             <router-link class="button" :to="'/offices'"><img src="../assets/emotion-adv-icon.png" />Choose Office</router-link>
           </div>
         </div>

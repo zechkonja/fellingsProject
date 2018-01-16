@@ -10,6 +10,7 @@ import Advisors from '@/components/Advisors';
 import ChooseAdvisor from '@/components/ChooseAdvisor';
 import UpdateEmotion from '@/components/UpdateEmotion';
 import Offices from '@/components/Offices';
+import Help from '@/components/Help';
 
 Vue.use(Router);
 
@@ -66,6 +67,11 @@ export default new Router({
       path: '/update-emotion',
       name: 'UpdateEmotion',
       component: UpdateEmotion,
+    },
+    {
+      path: '/help',
+      name: 'Help',
+      component: Help,
     },
   ],
 });
