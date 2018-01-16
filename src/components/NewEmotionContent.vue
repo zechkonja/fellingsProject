@@ -22,7 +22,6 @@
 </template>
 
 <script>
-// import config from '../components/Config';
 import router from '../router';
 import store from '../store';
 import Heart from './Heart';
@@ -37,23 +36,10 @@ export default {
       return store.state.emotion;
     },
   },
-  data() {
-    return {
-      shared: false,
-    };
-  },
   beforeCreate() {
     if (!store.state.isLogged) {
       router.push('/login');
     }
-  },
-  mounted() {
-  },
-  methods: {
-    shareState() {
-      this.shared = !this.shared;
-      store.commit('ADD_SHARED_VALUE', this.shared);
-    },
   },
 };
 </script>
@@ -66,7 +52,6 @@ export default {
   flex: 1;
   overflow: auto;
 }
-
 
 .help-text {
   /* margin-top: 30px; */
@@ -112,7 +97,7 @@ export default {
   padding-left: 30px;
   padding-right: 30px;
   color: #996dd5;
-  border: 1px solid #996dd5; 
+  border: 1px solid #996dd5;
   margin-top: 15px;
 }
 </style>

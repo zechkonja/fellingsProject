@@ -88,8 +88,6 @@ export default {
   },
   data() {
     return {
-      shared: false,
-      addText: '',
     };
   },
   beforeCreate() {
@@ -147,42 +145,6 @@ export default {
   margin: 0;
 }
 
-.help-text {
-  margin-top: 30px;
-}
-
-.help-text .column p {
-  margin-bottom: 0;
-  font-size: 14px;
-}
-
-.share-button {
-  background-color: transparent;
-  border-radius: 50px;
-  font-weight: bold;
-  font-size: 12px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-.share-button i {
-  margin-right: 5px;
-}
-
-.fa-share-alt::before {
-  font-size: 10px;
-  font-weight: 100;
-}
-
-.happiness-level {
-  font-size: 12px;
-}
-
-.shared {
-  background-color: #e74c9c;
-  color: white;
-}
-
 .column h5 {
   margin-top: 30px;
   font-size: 20px;
@@ -212,7 +174,6 @@ export default {
   padding-right: 30px;
   margin-bottom: 30px;
 }
-
 
 .background-gradient {
   background: linear-gradient(0deg, #cd57ae, #996dd5 80%) no-repeat;

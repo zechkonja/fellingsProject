@@ -53,7 +53,6 @@
 
 <script>
 // import config from '../components/Config';
-import cryptico from 'cryptico';
 import router from '../router';
 import store from '../store';
 import Heart from './Heart';
@@ -90,9 +89,8 @@ export default {
     showHide() {
       if (store.state.emotions.length === 0) {
         return true;
-      } else {
-        return false;
       }
+      return false;
     },
   },
   data() {

@@ -2,7 +2,7 @@ import firebase from 'firebase';
 import cryptico from 'cryptico';
 
 export default {
-  UPDATE(context) {
+  UPDATE() {
     const currentDate = Math.floor(Date.now() / 1000);
     const leadsRef = firebase.database().ref(`emotions/${this.state.userId}`);
     leadsRef.on('value', (snapshot) => {
@@ -19,7 +19,8 @@ export default {
   },
 
   SAVE_EMOTION(context, emotionText) {
-    context.commit('ADD_TEXT_VALUE', cryptico.encrypt(emotionText, cryptico.publicKeyString(this.state.RSAkey)).cipher);
+    context.commit('ADD_TEXT_VALUE',
+    cryptico.encrypt(emotionText, cryptico.publicKeyString(this.state.RSAkey)).cipher);
     const newPostKey = firebase.database().ref('emotions').child(this.state.userId).push().key;
     firebase.database().ref(`/emotions/${this.state.userId}/${newPostKey}`).set({
       insertDate: Math.floor(Date.now() / 1000),

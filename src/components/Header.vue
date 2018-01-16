@@ -3,10 +3,10 @@
   <nav class="navbar">
     <div class="container">
       <div class="navbar-brand is-large">
-          <router-link class="navbar-item" to="/emotions">
-              <img src="../assets/small-heart.png" alt="Fellings" height="100px">
-              <span class="nav-title">Fellings</span>
-          </router-link>
+        <router-link class="navbar-item" to="/emotions">
+          <img src="../assets/small-heart.png" alt="Fellings" height="100px">
+          <span class="nav-title">Fellings</span>
+        </router-link>
         <button @click="makeBurger" class="button navbar-burger" data-target="navMenu" v-bind:class="{ 'is-active': activator }">
               <span class="stripe"></span>
               <span class="stripe"></span>
@@ -17,7 +17,7 @@
         <div class="navbar-end">
           <div class="navbar-item">
             <router-link class="navbar-item" to="/help">
-                <span class="nav-title">Help</span>
+              <span class="nav-title">Help</span>
             </router-link>
           </div>
           <div class="navbar-item">
@@ -87,14 +87,14 @@ export default {
 }
 
 .stripe {
-  background-image:url('../assets/stripe.png');
+  background-image: url('../assets/stripe.png');
   background-color: transparent;
   width: 16px;
   height: 4px;
 }
 
-.button.navbar-burger.is-active .stripe{
-  background-image:url('../assets/flat-stripe.png');
+.button.navbar-burger.is-active .stripe {
+  background-image: url('../assets/flat-stripe.png');
   background-color: transparent;
   width: 16px;
   height: 2px;

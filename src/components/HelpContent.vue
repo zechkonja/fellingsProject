@@ -8,7 +8,9 @@
   <div class="columns is-mobile help-content">
     <div class="column">
       <h5><b>How to add Emotion?</b></h5>
-      <p>You can add Emotion by clicking on heart and press button Next</p>
+      <p>You can add Emotion by clicking on heart,bottom is sad, top is happy :-), and press button Next,
+        then add some text to describe how to you feel.
+        And then click on button - Save your emotion</p>
     </div>
   </div>
 </div>

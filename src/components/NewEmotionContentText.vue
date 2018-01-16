@@ -20,7 +20,6 @@
 </template>
 
 <script>
-// import config from '../components/Config';
 import cryptico from 'cryptico';
 import router from '../router';
 import store from '../store';
@@ -31,14 +30,6 @@ export default {
   computed: {
     emotion() {
       return store.state.emotion;
-    },
-    shared: {
-      set(v) {
-        store.commit('ADD_SHARED_VALUE', v);
-      },
-      get() {
-        return store.state.emotion.shared;
-      },
     },
   },
   data() {
@@ -51,12 +42,7 @@ export default {
       router.push('/login');
     }
   },
-  mounted() {
-  },
   methods: {
-    shareState() {
-      this.shared = !this.shared;
-    },
     save() {
       store.dispatch('SAVE_EMOTION', this.emotionText);
       router.push('/added');
@@ -96,11 +82,6 @@ export default {
   font-size: 12px;
 }
 
-.shared {
-  background-color: #e74c9c;
-  color: white;
-}
-
 .login-btn {
   width: 100%;
   border-radius: 50px;
@@ -119,7 +100,6 @@ export default {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9274dc', endColorstr='#fb438d', GradientType=1);
   /* IE6-9 */
 }
-
 
 .fellings-textarea {
   width: 100%;

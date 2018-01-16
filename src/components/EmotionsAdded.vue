@@ -8,11 +8,8 @@
 </template>
 
 <script>
-// import config from '../components/Config';
-
 import router from '../router';
 import store from '../store';
-
 import appHeader from './Header';
 import Added from './Added';
 import appFooter from './Footer';
@@ -26,18 +23,10 @@ export default {
     'app-footer': appFooter,
     'app-content-top': appContentTop,
   },
-  data() {
-    return {
-
-    };
-  },
   beforeCreate() {
     if (!store.state.isLogged) {
       router.push('/login');
     }
-  },
-  methods: {
-
   },
 };
 </script>
@@ -65,11 +54,6 @@ export default {
 
 .box .row.header {
   flex: 0 1 auto;
-  /* The above is shorthand for:
-  flex-grow: 0,
-  flex-shrink: 1,
-  flex-basis: auto
-  */
 }
 
 .box .row.content {

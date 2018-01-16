@@ -9,7 +9,6 @@
 <script>
 import router from '../router';
 import store from '../store';
-
 import appHeader from './Header';
 import HelpConent from './HelpContent';
 import appFooter from './Footer';
@@ -21,18 +20,10 @@ export default {
     'app-content': HelpConent,
     'app-footer': appFooter,
   },
-  data() {
-    return {
-
-    };
-  },
   beforeCreate() {
     if (!store.state.isLogged) {
       router.push('/login');
     }
-  },
-  methods: {
-
   },
 };
 </script>

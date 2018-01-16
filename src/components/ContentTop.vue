@@ -14,7 +14,6 @@
 </template>
 
 <script>
-// import config from '../components/Config';
 import router from '../router';
 import store from '../store';
 
@@ -33,17 +32,10 @@ export default {
       },
     },
   },
-  data() {
-    return {
-      emotionText: '',
-    };
-  },
   beforeCreate() {
     if (!store.state.isLogged) {
       router.push('/login');
     }
-  },
-  mounted() {
   },
   methods: {
     shareState() {
@@ -90,8 +82,5 @@ export default {
 .emotion-value {
   font-weight: bolder;
 }
-
-
-/* brisi na dolee */
 
 </style>

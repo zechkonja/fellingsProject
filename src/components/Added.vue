@@ -14,7 +14,7 @@
     </div>
     <div class="columns is-mobile">
       <div class="column">
-        <button class="added1" @click="finishEmotion">
+        <button class="added" @click="finishEmotion">
           <b-icon
                 pack="fa"
                 icon="check"
@@ -40,7 +40,6 @@
 </template>
 
 <script>
-// import config from '../components/Config';
 import router from '../router';
 import store from '../store';
 
@@ -56,7 +55,6 @@ export default {
   },
   data() {
     return {
-      shared: false,
     };
   },
   beforeCreate() {
@@ -65,13 +63,8 @@ export default {
     }
   },
   mounted() {
-    this.shared = this.emotion.shared;
   },
   methods: {
-    shareState() {
-      this.shared = !this.shared;
-      store.commit('ADD_SHARED_VALUE', this.shared);
-    },
     finishEmotion() {
       store.dispatch('RESET_EMOTION');
       router.push('/emotions');
@@ -89,7 +82,6 @@ export default {
   overflow: auto;
 }
 
-
 .help-text {
   margin-top: 0px;
 }
@@ -99,34 +91,7 @@ export default {
   font-size: 14px;
 }
 
-.share-button {
-  background-color: transparent;
-  border-radius: 50px;
-  font-weight: bold;
-  font-size: 12px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-.share-button i {
-  margin-right: 5px;
-}
-
-.fa-share-alt::before {
-  font-size: 10px;
-  font-weight: 100;
-}
-
-.happiness-level {
-  font-size: 12px;
-}
-
-.shared {
-  background-color: #e74c9c;
-  color: white;
-}
-
-.added1 {
+.added {
   background-color: transparent !important;
   width: 111px;
   height: 111px;

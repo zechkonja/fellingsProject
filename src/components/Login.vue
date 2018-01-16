@@ -44,7 +44,6 @@
 </template>
 
 <script>
-// import config from '../components/Config';
 import firebase from 'firebase';
 import router from '../router';
 import store from '../store';
@@ -83,9 +82,9 @@ export default {
           router.push('/');
         }).catch((error) => {
         // const errorCode = error.code;
-        const errorMessage = error.message;
-        throw new Error(errorMessage);
-      });
+          const errorMessage = error.message;
+          throw new Error(errorMessage);
+        });
     },
     validateEmailAddress: (e) => {
       if (e.keyCode === 13) {

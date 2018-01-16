@@ -21,8 +21,6 @@
 </template>
 
 <script>
-// import config from '../components/Config';
-import cryptico from 'cryptico';
 import router from '../router';
 import store from '../store';
 
@@ -47,16 +45,13 @@ export default {
     this.emotionText = this.updateEmotion.text;
   },
   methods: {
-    shareState() {
-      this.shared = !this.shared;
-    },
     save() {
       store.dispatch('UPDATE_EMOTION', this.emotionText);
       router.push('/emotions');
     },
     back() {
       router.push('/emotions');
-    }
+    },
   },
 };
 </script>
@@ -68,33 +63,6 @@ export default {
   margin-bottom: 0px;
   flex: 1;
   overflow: auto;
-}
-
-.share-button {
-  background-color: transparent;
-  border-radius: 50px;
-  font-weight: bold;
-  font-size: 12px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-.share-button i {
-  margin-right: 5px;
-}
-
-.fa-share-alt::before {
-  font-size: 10px;
-  font-weight: 100;
-}
-
-.happiness-level {
-  font-size: 12px;
-}
-
-.shared {
-  background-color: #e74c9c;
-  color: white;
 }
 
 .login-btn {
@@ -116,7 +84,6 @@ export default {
   /* IE6-9 */
 }
 
-
 .fellings-textarea {
   width: 100%;
   height: 200px;
@@ -126,7 +93,6 @@ export default {
 .emotion-value {
   font-weight: bolder;
 }
-
 
 .back-button {
   background-color: transparent;
