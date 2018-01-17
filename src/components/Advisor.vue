@@ -28,7 +28,7 @@
       <div class="column is-4">
         <div>
           <span class="colored-info">{{advisor.fallowers}}</span>
-          <span>Fallowers</span>
+          <span>Followers</span>
         </div>
       </div>
       <div class="column is-4">
@@ -60,7 +60,6 @@
 </template>
 
 <script>
-// import config from '../components/Config';
 import StarRating from 'vue-star-rating';
 import router from '../router';
 import store from '../store';
@@ -76,7 +75,6 @@ export default {
     },
     addedConnection: {
       set() {
-
       },
       get() {
         return store.state.addedConnection;
@@ -106,7 +104,7 @@ export default {
     add() {
       this.$dialog.confirm({
         title: 'Advisor added',
-        message: 'You added your emotion advisor, you will be notified when your appliaction is approved!',
+        message: 'You added your emotion advisor, you will be notified when your application is approved!',
         onConfirm: () => {
           this.isAdded = true;
           store.dispatch('CREATE_CONNECTION', this.advisor);

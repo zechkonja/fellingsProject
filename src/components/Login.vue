@@ -69,7 +69,6 @@ export default {
         store.commit('LOGIN_USER');
         store.dispatch('UPDATE');
         router.push('/');
-        // ...
       }).catch((error) => {
         const errorMessage = error.message;
         throw new Error(errorMessage);
@@ -134,7 +133,6 @@ export default {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9274dc', endColorstr='#fb438d', GradientType=1);
   /* IE6-9 */
 }
-
 
 .signin-button {
   /* This is where you control how the button looks. Be creative! */

@@ -201,8 +201,6 @@ export default {
 
   DELETE_CONNECTION(context, connection) {
     firebase.database().ref(`/connections/${this.state.choosenAdvisor.id}/${connection.id}`).remove();
-
-    //  context.commit('DELETE_CONNECTION', emotion);
   },
 
   ADD_EMOTION_FOR_REMOVE(context, emotion) {
