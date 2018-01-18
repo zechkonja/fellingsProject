@@ -17,7 +17,6 @@
 </template>
 
 <script>
-// import config from '../components/Config';
 import router from '../router';
 import store from '../store';
 

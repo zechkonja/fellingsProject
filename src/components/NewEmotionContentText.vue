@@ -1,5 +1,6 @@
 <template>
 <div id="new-emotion-content-text" class="row content">
+  <ContentTop />
   <div class="columns is-mobile">
     <div class="column">
       <h1>Why do you feel this way?</h1>
@@ -20,12 +21,15 @@
 </template>
 
 <script>
-import cryptico from 'cryptico';
 import router from '../router';
 import store from '../store';
+import ContentTop from './ContentTop';
 
 export default {
   name: 'new-emotion-content-text',
+  components: {
+    ContentTop,
+  },
   props: ['UpdateEmotion'],
   computed: {
     emotion() {

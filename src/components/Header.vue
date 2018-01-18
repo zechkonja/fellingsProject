@@ -51,7 +51,6 @@ export default {
   methods: {
     logout() {
       firebase.auth().signOut().then(() => {
-        localStorage.removeItem('token');
         store.commit('LOGOUT_USER');
         router.push('login');
       }).catch((error) => {

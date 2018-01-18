@@ -1,17 +1,17 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Login from '@/components/Login';
-import Home from '@/components/Home';
+import Home from '@/components/NewEmotionContent';
 import NewAccount from '@/components/NewAccount';
-import EmotionText from '@/components/EmotionText';
-import Emotions from '@/components/Emotions';
-import EmotionsAdded from '@/components/EmotionsAdded';
-import Advisors from '@/components/Advisors';
-import ChooseAdvisor from '@/components/ChooseAdvisor';
-import UpdateEmotion from '@/components/UpdateEmotion';
-import Offices from '@/components/Offices';
-import Help from '@/components/Help';
-import DeleteEmotion from '@/components/DeleteEmotion';
+import EmotionText from '@/components/NewEmotionContentText';
+import Emotions from '@/components/AllEmotions';
+import EmotionsAdded from '@/components/Added';
+import Advisors from '@/components/AllAdvisors';
+import ChooseAdvisor from '@/components/Advisor';
+import UpdateEmotion from '@/components/UpdateContentText';
+import Offices from '@/components/AllOffices';
+import Help from '@/components/HelpContent';
+import DeleteEmotion from '@/components/DeleteContent';
 
 Vue.use(Router);
 

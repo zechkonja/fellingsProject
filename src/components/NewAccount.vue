@@ -64,6 +64,18 @@ export default {
 </script>
 
 <style>
+
+#new-account {
+  z-index: 2;
+  background-color: #f8f3f7;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: auto;
+}
+
 .login-btn {
   width: 100%;
   border-radius: 50px;

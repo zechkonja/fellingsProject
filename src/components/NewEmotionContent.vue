@@ -1,5 +1,6 @@
 <template>
 <div id="new-emotion-content" class="row content">
+  <ContentTop />
   <div class="columns is-mobile">
     <div class="column">
       <h1>How do you feel?</h1>
@@ -25,11 +26,13 @@
 import router from '../router';
 import store from '../store';
 import Heart from './Heart';
+import ContentTop from './ContentTop';
 
 export default {
   name: 'new-emotion-content',
   components: {
     Heart,
+    ContentTop,
   },
   computed: {
     emotion() {

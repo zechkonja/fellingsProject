@@ -1,5 +1,6 @@
 <template>
 <div id="added" class="row content">
+  <ContentTop />
   <div v-if="error" class="columns is-mobile">
     <div class="column">
       <h2>ERROR ON SAVING</h2>
@@ -42,9 +43,13 @@
 <script>
 import router from '../router';
 import store from '../store';
+import ContentTop from './ContentTop';
 
 export default {
   name: 'added',
+  components: {
+    ContentTop,
+  },
   computed: {
     emotion() {
       return store.state.emotion;

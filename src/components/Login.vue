@@ -96,6 +96,7 @@ export default {
 
 <style>
 #login {
+  z-index: 2;
   background-color: #f8f3f7;
   position: absolute;
   top: 0;
