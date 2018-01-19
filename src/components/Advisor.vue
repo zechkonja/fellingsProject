@@ -84,16 +84,11 @@ export default {
       return store.state.error;
     },
   },
-  data() {
-    return {
-    };
-  },
   beforeCreate() {
     if (!store.state.isLogged) {
       router.push('/login');
     }
   },
-  beforeMount() {},
   mounted() {
     store.dispatch('CHECK_ADDED_CONNECTION');
   },

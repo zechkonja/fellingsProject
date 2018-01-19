@@ -61,26 +61,13 @@ const state = {
     officeId: 0,
     rating: 0,
   },
-  emotions: [],
   advisors: [],
   offices: [],
   emotionsReady: false,
   advisorsReady: false,
   officesReady: false,
-};
-
-const getters = {
-  encryptedEmotions: (state) => {
-    const encryptedEmotions = state.emotions.map(emotion => ({
-      id: emotion.id,
-      insertDate: emotion.insertDate,
-      shared: emotion.shared,
-      text: cryptico.decrypt(emotion.text, state.RSAkey).plaintext,
-      value: emotion.value,
-      oneDayEdit: emotion.oneDayEdit,
-    }));
-    return encryptedEmotions;
-  },
+  referenceToOldestKey: '',
+  AllEmotions: 0,
 };
 
 const mutations = mutators;
@@ -89,7 +76,6 @@ const actions = actionsFile;
 export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   state,
-  getters,
   mutations,
   actions,
 });

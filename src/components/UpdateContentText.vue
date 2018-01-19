@@ -23,9 +23,11 @@
 <script>
 import router from '../router';
 import store from '../store';
+import mixin from '../mixins/mixin';
 
 export default {
   name: 'update-content-text',
+  mixins: [mixin],
   computed: {
     updateEmotion() {
       return store.state.updateEmotion;
@@ -42,11 +44,11 @@ export default {
     }
   },
   mounted() {
-    this.emotionText = this.updateEmotion.text;
+    this.emotionText = this.decrypt(this.updateEmotion.text);
   },
   methods: {
     save() {
-      store.dispatch('UPDATE_EMOTION', this.emotionText);
+      store.dispatch('UPDATE_EMOTION', this.encrypt(this.emotionText));
       router.push('/emotions');
     },
     back() {

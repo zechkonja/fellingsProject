@@ -4,7 +4,7 @@
     <div :class="[!addComment ? activeClass : hideClass]">
       <div class="columns is-mobile">
         <div class="column">
-          <router-link class="button" :class="[trackPage ? 'track-emotions' : '']" :to="'/emotions'"><span :class="[trackPage ? 'heart-rate-colored' : 'heart-rate']"></span>Track Emotions</router-link>
+          <router-link class="button menu-link" :class="[trackPage ? 'track-emotions' : '']" :to="'/emotions'"><span :class="[trackPage ? 'heart-rate-colored' : 'heart-rate']"></span>Track Emotions</router-link>
         </div>
         <button @click="addNew" class="clear-button add-emotion" :class="[addEmotion ? activeClass : hideClass]">
           <i class="fa fa-plus"></i>
@@ -13,7 +13,7 @@
         </div>
         <div class="column">
           <div>
-            <router-link class="button" :to="'/offices'"><img src="../assets/emotion-adv-icon.png" />Choose Office</router-link>
+            <router-link class="button menu-link" :class="[trackPageOffice ? 'track-emotions' : '']" :to="'/offices'"><span :class="[trackPageOffice ? 'emotion-adv-icon-colored' : 'emotion-adv-icon']"></span>Choose Office</router-link>
           </div>
         </div>
       </div>
@@ -56,6 +56,7 @@ export default {
       activeClass: 'show',
       hideClass: 'hide',
       trackPage: false,
+      trackPageOffice: false,
     };
   },
   beforeCreate() {
@@ -63,27 +64,34 @@ export default {
       router.push('/login');
     }
   },
+  beforeUpdate() {
+    this.checkEmotion();
+  },
   mounted() {
     this.checkEmotion();
   },
   methods: {
     checkEmotion() {
       if (this.$route.path === '/emotion-text') {
+        this.trackPage = false;
+        this.trackPageOffice = false;
         this.addComment = true;
         this.addEmotion = false;
-        this.trackPage = false;
-      } else if (this.$route.path === '/') {
-        this.addComment = false;
-        this.addEmotion = false;
-        this.trackPage = false;
       } else if (this.$route.path === '/emotions') {
-        this.addComment = false;
         this.addEmotion = true;
         this.trackPage = true;
-      } else {
         this.addComment = false;
+        this.trackPageOffice = false;
+      } else if (this.$route.path === '/offices') {
         this.addEmotion = true;
+        this.trackPageOffice = true;
+        this.addComment = false;
         this.trackPage = false;
+      } else {
+        this.addEmotion = true;
+        this.addComment = false;
+        this.trackPage = false;
+        this.trackPageOffice = false;
       }
     },
     addNew() {
@@ -176,6 +184,17 @@ i.fa {
   height: 14px;
 }
 
+.emotion-adv-icon{
+  background-image: url('../assets/emotion-adv-icon.png');
+  width: 16px;
+  height: 12px;
+}
+.emotion-adv-icon-colored {
+  background-image: url('../assets/emotion-adv-icon-colored.png');
+  width: 16px;
+  height: 12px;
+}
+
 .clear-button {
   background-color: transparent !important;
   background-repeat: no-repeat;
@@ -186,4 +205,9 @@ i.fa {
   cursor: pointer;
   outline: inherit !important;
 }
+
+.menu-link img, .menu-link span{
+  margin-right: 5px;
+}
+
 </style>

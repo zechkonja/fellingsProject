@@ -16,6 +16,16 @@
       <div class="navbar-menu" id="navMenu" v-bind:class="{ 'is-active': activator }">
         <div class="navbar-end">
           <div class="navbar-item">
+            <router-link class="navbar-item" to="/emotions">
+              <span class="nav-title">Emotions</span>
+            </router-link>
+          </div>
+          <div class="navbar-item">
+            <router-link class="navbar-item" to="/offices">
+              <span class="nav-title">Offices</span>
+            </router-link>
+          </div>
+          <div class="navbar-item">
             <router-link class="navbar-item" to="/help">
               <span class="nav-title">Help</span>
             </router-link>
@@ -31,7 +41,6 @@
 </template>
 
 <script>
-// import config from '../components/Config';
 import firebase from 'firebase';
 import router from '../router';
 import store from '../store';
@@ -61,9 +70,6 @@ export default {
     makeBurger() {
       this.activator = !this.activator;
       return this.activator;
-    },
-    help() {
-
     },
   },
 };

@@ -1,5 +1,4 @@
 import firebase from 'firebase';
-import cryptico from 'cryptico';
 
 export default {
   UPDATE() {
@@ -19,8 +18,7 @@ export default {
   },
 
   SAVE_EMOTION(context, emotionText) {
-    context.commit('ADD_TEXT_VALUE',
-      cryptico.encrypt(emotionText, cryptico.publicKeyString(this.state.RSAkey)).cipher);
+    context.commit('ADD_TEXT_VALUE', emotionText);
     const newPostKey = firebase.database().ref('emotions').child(this.state.userId).push().key;
     firebase.database().ref(`/emotions/${this.state.userId}/${newPostKey}`).set({
       insertDate: Math.floor(Date.now() / 1000),
@@ -39,29 +37,12 @@ export default {
     context.commit('DELETE_EMOTION');
   },
 
-  UPDATE_EMOTION(context, text) {
-    const cryptedText = cryptico.encrypt(text, cryptico.publicKeyString(this.state.RSAkey)).cipher;
+  UPDATE_EMOTION(context, encryptedText) {
     firebase.database().ref().child(`/emotions/${this.state.userId}/${this.state.updateEmotion.id}`)
       .update({
-        text: cryptedText,
+        text: encryptedText,
       });
-    context.commit('UPDATE_EMOTION', cryptedText);
-  },
-
-  GET_EMOTIONS(context) {
-    const emotions = [];
-    const leadsRef = firebase.database().ref(`emotions/${this.state.userId}`);
-    leadsRef.once('value', (snapshot) => {
-      snapshot.forEach((childSnapshot) => {
-        const childData = childSnapshot.val();
-        childData.id = childSnapshot.key;
-        emotions.push(childData);
-      });
-
-      // handle errors please
-      context.commit('GET_EMOTIONS', emotions);
-      context.commit('EMOTIONS_DATA_READY');
-    });
+    context.commit('UPDATE_EMOTION', encryptedText);
   },
 
   GET_ADVISORS(context) {
@@ -209,6 +190,10 @@ export default {
 
   ADD_INDEX_FOR_REMOVE(context, index) {
     context.commit('ADD_INDEX_FOR_REMOVE', index);
+  },
+
+  ADD_NUM_ALL_EMOTIONS(context, number) {
+    context.commit('ADD_NUM_ALL_EMOTIONS', number);
   },
 
 };

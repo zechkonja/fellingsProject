@@ -12,7 +12,7 @@
   </div>
   <div :class="{'is-waiting': !dataReady}">
     <div class="columns is-mobile">
-      <div class="column" v-if="emotions.length > 0">
+      <div class="column" v-if="this.emotionsTest.length > 0">
         <span>{{ avg }}%</span> <span class="happiness-level">Average Happiness level</span>
       </div>
     </div>
@@ -21,7 +21,7 @@
         <div>You don't have any emotions! Add some!</div>
       </div>
     </div>
-    <div class="columns is-mobile emotion-item" v-for="(em, index) in encryptedEmotions">
+    <div class="columns is-mobile emotion-item" v-for="(em, index) in emotionsTest">
       <button @click="confirmCustomDelete(em, index)" v-show="em.oneDayEdit" type="button" class="delete right-corner"></button>
       <div class="column is-two-fifths">
         <div class="heart">
@@ -38,7 +38,7 @@
             <span class="emotion-value">{{ em.value }}%</span><span>Happines level</span>
           </div>
           <div class="short-text">
-            <p>{{ em.text | cutText }}</p>
+            <p>{{ em.decryptedText | cutText }}</p>
           </div>
           <div class="actions">
             <button @click="openEdit(em)" v-show="em.oneDayEdit" class="clear-button edit"></button>
@@ -52,8 +52,10 @@
 </template>
 
 <script>
+import firebase from 'firebase';
 import router from '../router';
 import store from '../store';
+import mixin from '../mixins/mixin';
 import Heart from './Heart';
 
 export default {
@@ -61,39 +63,44 @@ export default {
   components: {
     Heart,
   },
+  mixins: [mixin],
   computed: {
-    emotion() {
-      return store.state.emotion;
-    },
-    emotions() {
-      return store.state.emotions;
-    },
-    encryptedEmotions() {
-      return store.getters.encryptedEmotions;
-    },
     rsaKey() {
       return store.state.RSAkey;
     },
     dataReady() {
       return store.state.emotionsReady;
     },
+    userId() {
+      return store.state.userId;
+    },
+    RSAkey() {
+      return store.state.RSAkey;
+    },
     avg() {
       let total = 0;
-      const length = store.state.emotions.length;
+      const length = this.emotionsTest.length;
       for (let i = 0; i < length; i++) {
-        total += parseFloat(store.state.emotions[i].value);
+        total += parseFloat(this.emotionsTest[i].value);
       }
       return Math.round(total / length);
     },
     showHide() {
-      if (store.state.emotions.length === 0) {
+      if (this.emotionsTest.length === 0) {
         return true;
       }
       return false;
     },
+    referenceToOldestKey() {
+      return store.state.referenceToOldestKey;
+    },
+    AllEmotions() {
+      return store.state.AllEmotions;
+    }
   },
   data() {
     return {
+      emotionsTest: [],
       filter: '',
       isActive: false,
       interval: null,
@@ -104,20 +111,96 @@ export default {
       router.push('/login');
     }
   },
-  beforeMount() {
-    store.dispatch('UPDATE');
-    store.dispatch('GET_EMOTIONS');
-  },
+  beforeMount() {},
   mounted() {
-    store.dispatch('GET_EMOTIONS');
     this.interval = setInterval(() => {
       store.dispatch('UPDATE');
     }, 43200);
+
+    const leadsRef = firebase.database().ref(`emotions/${this.userId}`);
+    leadsRef.on('value', (snapshot) => {
+      store.commit('ADD_NUM_ALL_EMOTIONS', snapshot.numChildren());
+    });
+    this.getEmotions();
+    store.commit('EMOTIONS_DATA_READY');
+    $(
+      ($) => {
+        $('#all-emotions').bind('scroll', () => {
+          if ($('#all-emotions').scrollTop() + $('#all-emotions').innerHeight() >= $('#all-emotions')[0].scrollHeight) {
+            if (this.emotionsTest.length < this.AllEmotions) {
+              this.getEmotions();
+            }
+          }
+        });
+      });
   },
+  beforeUpdate() {},
   beforeDestroy() {
+    store.commit('ADD_OLDEST_KEY', '');
     clearInterval(this.interval);
   },
   methods: {
+    getEmotions() {
+      const leadsRef = firebase.database().ref(`emotions/${this.userId}`);
+      if (!this.referenceToOldestKey) {
+        // if initial fetch
+        leadsRef
+          .orderByKey()
+          .limitToLast(5)
+          .once('value')
+          .then((snapshot) => {
+            // changing to reverse chronological order (latest first)
+            const arrayOfKeys = Object.keys(snapshot.val())
+              .sort()
+              .reverse();
+            // transforming to array
+            const results = arrayOfKeys
+              .map((key) => {
+                const element = snapshot.val()[key];
+                element.id = key;
+                element.decryptedText = this.decrypt(element.text);
+                return element;
+              });
+
+            // storing reference
+            store.commit('ADD_OLDEST_KEY', arrayOfKeys[arrayOfKeys.length - 1]);
+            this.emotionsTest = results;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        leadsRef
+          .orderByKey()
+          .endAt(this.referenceToOldestKey)
+          .limitToLast(6)
+          .once('value')
+          .then((snapshot) => {
+            // changing to reverse chronological order (latest first)
+            // & removing duplicate
+            const arrayOfKeys = Object.keys(snapshot.val())
+              .sort()
+              .reverse()
+              .slice(1);
+            // transforming to array
+            const results = arrayOfKeys
+              .map((key) => {
+                const element = snapshot.val()[key];
+                element.id = key;
+                element.decryptedText = this.decrypt(element.text);
+                return element;
+              });
+            // updating reference
+            store.commit('ADD_OLDEST_KEY', arrayOfKeys[arrayOfKeys.length - 1]);
+            for (let i = 0; i < results.length; i++) {
+              this.emotionsTest.push(results[i]);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
     shareState(emotion) {
       store.dispatch('EDIT_SHARED_VALUE', emotion);
       if (emotion.shared) {
@@ -129,12 +212,10 @@ export default {
       store.dispatch('ADD_INDEX_FOR_REMOVE', index);
       router.push('/delete-emotion');
     },
-
     openEdit(emotion) {
       store.dispatch('ADD_VALUE_FOR_UPDATE', emotion);
       router.push('/update-emotion');
     },
-
   },
 };
 </script>
@@ -197,6 +278,10 @@ export default {
     font-size: 13px;
     opacity: 0.7;
     margin-bottom: 10px;
+}
+
+.info .short-text p {
+    word-break: break-all;
 }
 
 .clear-button {

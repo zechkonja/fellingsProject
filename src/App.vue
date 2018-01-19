@@ -1,9 +1,9 @@
 <template>
-  <div id="main-app" class="box">
-    <app-header></app-header>
-    <router-view/>
-    <app-footer></app-footer>
-  </div>
+<div id="main-app" class="box">
+  <app-header></app-header>
+  <router-view/>
+  <app-footer></app-footer>
+</div>
 </template>
 
 <script>
@@ -34,7 +34,7 @@ export default {
   left: 0;
   right: 0;
   overflow: auto;
-  margin-bottom:0;
+  margin-bottom: 0;
 }
 
 .box {

@@ -44,28 +44,14 @@ export default {
     state.error = true;
   },
 
-  GET_EMOTIONS(state, emotions) {
-    state.emotions = emotions;
-  },
-
   GET_ADVISORS(state, advisors) {
     state.advisors = advisors;
   },
 
   EDIT_EMOTION(state, emotion) {
-    state.emotions.forEach((element, index) => {
-      if (element.id === emotion.id) {
-        state.emotions[index].shared = emotion.shared;
-      }
-    });
   },
 
   UPDATE_EMOTION(state, cryptedText) {
-    state.emotions.forEach((element, index) => {
-      if (element.id === state.updateEmotion.id) {
-        state.emotions[index].text = cryptedText;
-      }
-    });
   },
 
   EMOTIONS_DATA_READY(state) {
@@ -77,11 +63,6 @@ export default {
   },
 
   DELETE_EMOTION(state) {
-    state.emotions.forEach((element, index) => {
-      if (element.id === state.removeEmotion.id) {
-        delete state.emotions[index];
-      }
-    });
   },
 
   ADD_VALUE_FOR_UPDATE(state, emotion) {
@@ -131,6 +112,14 @@ export default {
 
   RESET_ADDED_CONNECTION(state) {
     state.addedConnection = {};
+  },
+
+  ADD_OLDEST_KEY(state, referenceToOldestKey) {
+    state.referenceToOldestKey = referenceToOldestKey;
+  },
+
+  ADD_NUM_ALL_EMOTIONS(state, number) {
+    state.AllEmotions = number;
   },
 
 };

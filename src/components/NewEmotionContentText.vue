@@ -24,12 +24,14 @@
 import router from '../router';
 import store from '../store';
 import ContentTop from './ContentTop';
+import mixin from '../mixins/mixin';
 
 export default {
   name: 'new-emotion-content-text',
   components: {
     ContentTop,
   },
+  mixins: [mixin],
   props: ['UpdateEmotion'],
   computed: {
     emotion() {
@@ -48,7 +50,7 @@ export default {
   },
   methods: {
     save() {
-      store.dispatch('SAVE_EMOTION', this.emotionText);
+      store.dispatch('SAVE_EMOTION', this.encrypt(this.emotionText));
       router.push('/added');
     },
   },
