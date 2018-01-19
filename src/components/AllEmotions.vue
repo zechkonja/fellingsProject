@@ -116,13 +116,13 @@ export default {
     this.interval = setInterval(() => {
       store.dispatch('UPDATE');
     }, 43200);
+    store.commit('EMOTIONS_DATA_UNREADY');
 
     const leadsRef = firebase.database().ref(`emotions/${this.userId}`);
     leadsRef.on('value', (snapshot) => {
       store.commit('ADD_NUM_ALL_EMOTIONS', snapshot.numChildren());
     });
     this.getEmotions();
-    store.commit('EMOTIONS_DATA_READY');
     $(
       ($) => {
         $('#all-emotions').bind('scroll', () => {
@@ -165,6 +165,7 @@ export default {
             // storing reference
             store.commit('ADD_OLDEST_KEY', arrayOfKeys[arrayOfKeys.length - 1]);
             this.emotionsTest = results;
+            store.commit('EMOTIONS_DATA_READY');
           })
           .catch((error) => {
             console.log(error);
@@ -195,6 +196,7 @@ export default {
             for (let i = 0; i < results.length; i++) {
               this.emotionsTest.push(results[i]);
             }
+            store.commit('EMOTIONS_DATA_READY');
           })
           .catch((error) => {
             console.log(error);

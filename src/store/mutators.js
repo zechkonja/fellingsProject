@@ -58,6 +58,10 @@ export default {
     state.emotionsReady = true;
   },
 
+  EMOTIONS_DATA_UNREADY(state) {
+    state.emotionsReady = false;
+  },
+
   ADVISORS_DATA_READY(state) {
     state.advisorsReady = true;
   },
