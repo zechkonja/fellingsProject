@@ -16,18 +16,23 @@
       <div class="navbar-menu" id="navMenu" v-bind:class="{ 'is-active': activator }">
         <div class="navbar-end">
           <div class="navbar-item">
+            <router-link class="navbar-item" to="/profile">
+              <span @click="closeMenu" class="nav-title">Profile</span>
+            </router-link>
+          </div>
+          <div class="navbar-item">
             <router-link class="navbar-item" to="/emotions">
-              <span class="nav-title">Emotions</span>
+              <span @click="closeMenu" class="nav-title">Emotions</span>
             </router-link>
           </div>
           <div class="navbar-item">
             <router-link class="navbar-item" to="/offices">
-              <span class="nav-title">Offices</span>
+              <span @click="closeMenu" class="nav-title">Offices</span>
             </router-link>
           </div>
           <div class="navbar-item">
             <router-link class="navbar-item" to="/help">
-              <span class="nav-title">Help</span>
+              <span @click="closeMenu" class="nav-title">Help</span>
             </router-link>
           </div>
           <div class="navbar-item">
@@ -58,6 +63,10 @@ export default {
     }
   },
   methods: {
+    closeMenu() {
+      console.log('clicked');
+      this.makeBurger();
+    },
     logout() {
       this.makeBurger();
       firebase.auth().signOut().then(() => {

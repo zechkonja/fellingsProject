@@ -222,4 +222,11 @@ export default {
     context.commit('ADD_NUM_ALL_EMOTIONS', number);
   },
 
+  UPDATE_USER(context, profile) {
+    firebase.database().ref().child(`users/${this.state.userId}`)
+      .update({
+        fullName: profile.fullName,
+      });
+  },
+
 };

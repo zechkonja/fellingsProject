@@ -120,28 +120,31 @@ export default {
     this.interval = setInterval(() => {
       store.dispatch('UPDATE');
     }, 43200);
-    store.commit('EMOTIONS_DATA_UNREADY');
 
     const leadsRef = firebase.database().ref(`emotions/${this.userId}`);
     leadsRef.on('value', (snapshot) => {
       store.commit('ADD_NUM_ALL_EMOTIONS', snapshot.numChildren());
     });
-    this.getEmotions();
-    $(
-      ($) => {
-        $('#all-emotions').bind('scroll', () => {
-          if ($('#all-emotions').scrollTop() + $('#all-emotions').innerHeight() >= $('#all-emotions')[0].scrollHeight) {
-            if (this.emotionsTest.length < this.AllEmotions) {
-              this.showLoader = true;
-              setTimeout(() => {
-                this.getEmotions();
-              }, 1000);
-            } else {
-              this.showLoader = false;
+    if (this.AllEmotions > 0) {
+      this.getEmotions();
+      $(
+        ($) => {
+          $('#all-emotions').bind('scroll', () => {
+            if ($('#all-emotions').scrollTop() + $('#all-emotions').innerHeight() >= $('#all-emotions')[0].scrollHeight) {
+              if (this.emotionsTest.length < this.AllEmotions) {
+                this.showLoader = true;
+                setTimeout(() => {
+                  this.getEmotions();
+                }, 1000);
+              } else {
+                this.showLoader = false;
+              }
             }
-          }
+          });
         });
-      });
+    }
+    store.commit('EMOTIONS_DATA_READY');
+
   },
   beforeUpdate() {},
   beforeDestroy() {

@@ -12,6 +12,7 @@ import UpdateEmotion from '@/components/UpdateContentText';
 import Offices from '@/components/AllOffices';
 import Help from '@/components/HelpContent';
 import DeleteEmotion from '@/components/DeleteContent';
+import Profile from '@/components/Profile';
 
 Vue.use(Router);
 
@@ -78,6 +79,11 @@ export default new Router({
       path: '/delete-emotion',
       name: 'DeleteEmotion',
       component: DeleteEmotion,
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile,
     },
   ],
 });
