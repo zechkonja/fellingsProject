@@ -59,6 +59,7 @@ export default {
   },
   methods: {
     logout() {
+      this.makeBurger();
       firebase.auth().signOut().then(() => {
         store.commit('LOGOUT_USER');
         router.push('login');

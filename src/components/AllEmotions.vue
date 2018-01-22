@@ -47,6 +47,9 @@
         </div>
       </div>
     </div>
+    <div :class="showLoader ? 'show' : 'hide'">
+      Loading Emotions...
+    </div>
   </div>
 </div>
 </template>
@@ -104,6 +107,7 @@ export default {
       filter: '',
       isActive: false,
       interval: null,
+      showLoader: false,
     };
   },
   beforeCreate() {
@@ -128,7 +132,12 @@ export default {
         $('#all-emotions').bind('scroll', () => {
           if ($('#all-emotions').scrollTop() + $('#all-emotions').innerHeight() >= $('#all-emotions')[0].scrollHeight) {
             if (this.emotionsTest.length < this.AllEmotions) {
-              this.getEmotions();
+              this.showLoader = true;
+              setTimeout(() => {
+                this.getEmotions();
+              }, 1000);
+            } else {
+              this.showLoader = false;
             }
           }
         });
@@ -141,6 +150,7 @@ export default {
   },
   methods: {
     getEmotions() {
+      this.showLoader = false;
       const leadsRef = firebase.database().ref(`emotions/${this.userId}`);
       if (!this.referenceToOldestKey) {
         // if initial fetch

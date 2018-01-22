@@ -98,6 +98,32 @@ export default {
     context.dispatch('CHECK_CONNECTION', user);
   },
 
+  VERIFY_USER_EMAIL_PASS(context, user) {
+    const leadsRef = firebase.database().ref();
+    const timestamp = (new Date()).getTime();
+    leadsRef.once('value', (snapshot) => {
+      if (snapshot.child(`/users/${user.uid}`).exists()) {
+        leadsRef.child(`/users/${user.uid}`).update({
+          lastLogin: timestamp,
+        });
+      } else {
+        firebase.database().ref(`users/${user.uid}`).set({
+          email: user.email,
+          emailVerified: user.emailVerified,
+          fullName: user.displayName,
+          isAdmin: 'false',
+          isPsy: 'false',
+          isSuper: 'false',
+          lastLogin: timestamp,
+          uid: user.uid,
+          imageUrl: '',
+        });
+      }
+    });
+    context.commit('USER_DATA', user);
+    context.dispatch('CHECK_CONNECTION', user);
+  },
+
   CHECK_CONNECTION(context, user) {
     const leadsRef = firebase.database().ref('connections/');
     leadsRef.once('value', (snapshot) => {

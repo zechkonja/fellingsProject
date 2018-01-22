@@ -35,6 +35,7 @@
 <script>
 import firebase from 'firebase';
 import router from '../router';
+import store from '../store';
 
 export default {
   name: 'new-account',
@@ -44,15 +45,21 @@ export default {
       password: '',
     };
   },
-  beforeCreate() {
-
-  },
+  beforeCreate() {},
   methods: {
     signUp() {
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
-        (user) => {
-          this.$store.commit('LOGIN_USER');
-          router.push('/');
+        (result) => {
+          var user = firebase.auth().currentUser;
+          user.updateProfile({
+            displayName: ' ',
+          }).then(function() {
+            store.dispatch('VERIFY_USER_EMAIL_PASS', user);
+            store.commit('LOGIN_USER');
+            router.push('/');
+          }).catch(function(error) {
+            throw new Error(error.message);
+          });
         },
         (err) => {
           throw new Error(err.message);
@@ -64,7 +71,6 @@ export default {
 </script>
 
 <style>
-
 #new-account {
   z-index: 2;
   background-color: #f8f3f7;
