@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     checkEmotion() {
-      if(this.$route.path === '/'){
+      if (this.$route.path === '/') {
         this.trackPage = false;
         this.trackPageOffice = false;
         this.addComment = false;
@@ -136,14 +136,32 @@ export default {
 }
 
 .add-emotion {
-  width: 47px;
+  width: 50px;
+  height: 50px;
+  margin-top: -7px;
+  position: relative;
+  margin-bottom: 5px;
 }
 
 .add-emotion .fa {
-  font-size: 24px;
+  font-size: inherit;
   background-color: #fc428c;
   color: white;
-  margin-top: -7px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+}
+
+.add-emotion .fa::before {
+  font-size: 24px;
+  font-weight: 100;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .show {
@@ -189,11 +207,12 @@ i.fa {
   height: 14px;
 }
 
-.emotion-adv-icon{
+.emotion-adv-icon {
   background-image: url('../assets/emotion-adv-icon.png');
   width: 16px;
   height: 12px;
 }
+
 .emotion-adv-icon-colored {
   background-image: url('../assets/emotion-adv-icon-colored.png');
   width: 16px;
@@ -211,8 +230,8 @@ i.fa {
   outline: inherit !important;
 }
 
-.menu-link img, .menu-link span{
+.menu-link img,
+.menu-link span {
   margin-right: 5px;
 }
-
 </style>

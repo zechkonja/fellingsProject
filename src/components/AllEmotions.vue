@@ -126,9 +126,7 @@ export default {
         const data = childData.val();
         this.values.push(data.value);
       });
-    });
 
-    setTimeout(() => {
       if (this.AllEmotions > 0) {
         this.getEmotions();
         $(
@@ -139,7 +137,7 @@ export default {
                   this.showLoader = true;
                   setTimeout(() => {
                     this.getEmotions();
-                  }, 1000);
+                  }, 500);
                 } else {
                   this.showLoader = false;
                 }
@@ -149,7 +147,7 @@ export default {
       } else {
         this.showHide = true;
       }
-    }, 1000);
+    });
   },
   beforeUpdate() {},
   beforeDestroy() {
