@@ -1,10 +1,10 @@
 <template>
 <div id="content-top" class="row">
   <div class="columns is-mobile">
-    <div class="column">
+    <div class="column left-part">
       <span class="emotion-value">{{ emotion.value }}%</span> <span class="happiness-level">Happiness level</span>
     </div>
-    <div class="column">
+    <div class="column right-part">
       <a href="#" class="button share-button" v-bind:class="{ shared: emotion.shared }" v-on:click="shareState">
         <i class="fa fa-share-alt" aria-hidden="true"></i>Share
       </a>
@@ -48,8 +48,16 @@ export default {
 <style scoped>
 #content-top {
   background-color: #F8F4F8;
-  padding: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   margin-bottom: 0px;
+}
+
+.left-part{
+  text-align: left;
+}
+.right-part{
+  text-align: right;
 }
 
 .share-button {
@@ -57,8 +65,8 @@ export default {
   border-radius: 50px;
   font-weight: bold;
   font-size: 12px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 25px;
+  padding-right: 25px;
 }
 
 .share-button i {

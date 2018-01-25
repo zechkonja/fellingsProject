@@ -72,7 +72,12 @@ export default {
   },
   methods: {
     checkEmotion() {
-      if (this.$route.path === '/emotion-text') {
+      if(this.$route.path === '/'){
+        this.trackPage = false;
+        this.trackPageOffice = false;
+        this.addComment = false;
+        this.addEmotion = false;
+      } else if (this.$route.path === '/emotion-text') {
         this.trackPage = false;
         this.trackPageOffice = false;
         this.addComment = true;

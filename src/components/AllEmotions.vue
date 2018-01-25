@@ -48,7 +48,12 @@
       </div>
     </div>
     <div :class="showLoader ? 'show' : 'hide'">
-      Loading Emotions...
+      <div class="loading-emotion">Loading Emotions</div>
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -81,18 +86,8 @@ export default {
       return store.state.RSAkey;
     },
     avg() {
-      let total = 0;
-      const length = this.emotionsTest.length;
-      for (let i = 0; i < length; i++) {
-        total += parseFloat(this.emotionsTest[i].value);
-      }
-      return Math.round(total / length);
-    },
-    showHide() {
-      if (this.emotionsTest.length === 0) {
-        return true;
-      }
-      return false;
+      let sum = this.values.reduce((previous, current) => current += previous);
+      return Math.round(sum / this.values.length);
     },
     referenceToOldestKey() {
       return store.state.referenceToOldestKey;
@@ -108,6 +103,8 @@ export default {
       isActive: false,
       interval: null,
       showLoader: false,
+      showHide: false,
+      values: [],
     };
   },
   beforeCreate() {
@@ -120,31 +117,39 @@ export default {
     this.interval = setInterval(() => {
       store.dispatch('UPDATE');
     }, 43200);
+    store.commit('EMOTIONS_DATA_UNREADY');
 
     const leadsRef = firebase.database().ref(`emotions/${this.userId}`);
     leadsRef.on('value', (snapshot) => {
       store.commit('ADD_NUM_ALL_EMOTIONS', snapshot.numChildren());
+      snapshot.forEach((childData) => {
+        const data = childData.val();
+        this.values.push(data.value);
+      });
     });
-    if (this.AllEmotions > 0) {
-      this.getEmotions();
-      $(
-        ($) => {
-          $('#all-emotions').bind('scroll', () => {
-            if ($('#all-emotions').scrollTop() + $('#all-emotions').innerHeight() >= $('#all-emotions')[0].scrollHeight) {
-              if (this.emotionsTest.length < this.AllEmotions) {
-                this.showLoader = true;
-                setTimeout(() => {
-                  this.getEmotions();
-                }, 1000);
-              } else {
-                this.showLoader = false;
-              }
-            }
-          });
-        });
-    }
-    store.commit('EMOTIONS_DATA_READY');
 
+    setTimeout(() => {
+      if (this.AllEmotions > 0) {
+        this.getEmotions();
+        $(
+          ($) => {
+            $('#all-emotions').bind('scroll', () => {
+              if ($('#all-emotions').scrollTop() + $('#all-emotions').innerHeight() >= $('#all-emotions')[0].scrollHeight) {
+                if (this.emotionsTest.length < this.AllEmotions) {
+                  this.showLoader = true;
+                  setTimeout(() => {
+                    this.getEmotions();
+                  }, 1000);
+                } else {
+                  this.showLoader = false;
+                }
+              }
+            });
+          });
+      } else {
+        this.showHide = true;
+      }
+    }, 1000);
   },
   beforeUpdate() {},
   beforeDestroy() {
@@ -353,5 +358,60 @@ export default {
 
 .theme-color {
     background-color: #fc428c;
+}
+
+.loading-emotion {
+    display: inline-block;
+    font-weight: bold;
+}
+
+.spinner {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.spinner > div {
+    width: 8px;
+    height: 8px;
+    background-color: #9c6ed4;
+
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+    0%,
+    100%,
+    80% {
+        -webkit-transform: scale(0);
+    }
+    40% {
+        -webkit-transform: scale(1.0);
+    }
+}
+
+@keyframes sk-bouncedelay {
+    0%,
+    100%,
+    80% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+    40% {
+        -webkit-transform: scale(1.0);
+        transform: scale(1.0);
+    }
 }
 </style>

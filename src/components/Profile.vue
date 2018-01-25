@@ -9,8 +9,31 @@
       <div class="profile-name">
         <h5>{{profile.fullName}}</h5>
       </div>
-      <input v-model="fullName" placeholder="Name and Surname">
-      <button @click="update">Update</button>
+      <hr />
+      <div class="profile-name">
+        <h5>Update your name and surname</h5>
+      </div>
+      <div class="login-form">
+        <form @submit.prevent="validateBeforeSubmit">
+          <div class="field">
+            <p :class="{ 'control': true }">
+              <input class="input is-medium" v-model="name" v-validate="'alpha'" :class="{'input': true, 'is-danger': errors.has('name') }" name="name" type="text" placeholder="First name" />
+              <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
+            </p>
+          </div>
+          <div class="field">
+            <p :class="{ 'control': true }">
+              <input class="input is-medium" v-model="surname" v-validate="'alpha'" :class="{'input': true, 'is-danger': errors.has('surname') }" name="surname" type="text" placeholder="Last name" />
+              <span v-show="errors.has('surname')" class="help is-danger">{{ errors.first('surname') }}</span>
+            </p>
+          </div>
+          <div class="field">
+            <p class="control">
+              <button class="button login-btn" type="submit">Update</button>
+            </p>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
@@ -31,7 +54,8 @@ export default {
   data() {
     return {
       profile: {},
-      fullName: '',
+      name: '',
+      surname: '',
     };
   },
   beforeCreate() {
@@ -47,10 +71,16 @@ export default {
   },
   beforeDestroy() {},
   methods: {
-    update() {
-      profile.fullName = this.fullName;
-      store.dispatch('UPDATE_USER', profile);
-    }
+    validateBeforeSubmit() {
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          profile.fullName = this.name + " " + this.surname;
+          store.dispatch('UPDATE_USER', profile);
+          return;
+        }
+        alert('Correct errors!');
+      });
+    },
   },
 };
 </script>
@@ -78,7 +108,7 @@ export default {
   font-weight: bold;
 }
 
-.image img{
+.image img {
   margin: 0 auto;
   border-radius: 100px;
   -webkit-border-radius: 100px;

@@ -65,19 +65,6 @@ export default {
   font-size: 14px;
 }
 
-.share-button {
-  background-color: transparent;
-  border-radius: 50px;
-  font-weight: bold;
-  font-size: 12px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-.share-button i {
-  margin-right: 5px;
-}
-
 .fa-share-alt::before {
   font-size: 10px;
   font-weight: 100;
